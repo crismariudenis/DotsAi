@@ -18,7 +18,7 @@ public class Main extends PApplet {
 //    public static int[] nnShape = new int[]{3,1};
 //    public static PVector goal =
     public static PVector goal = new PVector(400, 100);
-    private PVector goalMove=new PVector(1,0);
+    public static PVector goalMove=new PVector(1,-1);
 
     public static final int nrObstacles = 0;
 
@@ -26,7 +26,7 @@ public class Main extends PApplet {
         p = this;
         /* size commented out by preprocessor */
         frameRate(120);
-        test = new SmartPopulation(2000);
+        test = new SmartPopulation(20);
 
 
         // walls =new Obstacle[2];
@@ -45,6 +45,7 @@ public class Main extends PApplet {
 
 //        goal.x=mouseX;
 //        goal.y=mouseY;
+
         if(goal.x+goalMove.x> width-10 || goal.x+goalMove.x<10)
             goalMove.x*=-1;
         if(goal.y+goalMove.y>height-10|| goal.y+goalMove.x<10)

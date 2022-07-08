@@ -32,7 +32,7 @@ public class NeuralNetwork {
 
     ArrayList<Float> process(PVector pos, PVector vel, PVector acc) {
         PVector target = new PVector(Main.goal.x, Main.goal.y);
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x, pos.y, vel.x, vel.y, target.x, target.y));
+        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x, pos.y,vel.x,vel.y, target.x, target.y));
 //Todo:Try to remove vel from the input
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);
@@ -75,9 +75,11 @@ public class NeuralNetwork {
         clone.bias = (ArrayList<Float>[]) new ArrayList[this.bias.length];
         for (int i = 0; i < this.bias.length; i++) {
             clone.bias[i] = new ArrayList<Float>();
-            for (float x : this.bias[i])
-                clone.bias[i].add(x);
+                for(int j=0;j<this.bias[i].size();j++) {
+                    clone.bias[i].add(this.bias[i].get(j));
+                }
         }
+
 
         clone.weights = new Matrix[this.weights.length];
         for (int i = 0; i < this.weights.length + 1; i++)
@@ -90,32 +92,33 @@ public class NeuralNetwork {
     public NeuralNetwork merge(NeuralNetwork p2) {
         NeuralNetwork merger = p2.clone();
 
-
         for (int i = 0; i < this.weights.length + 1; i++) {
             float r = p.random(1);
             if (i != this.weights.length && r < 0.5)
                 merger.weights[i] = this.weights[i].merge(p2.weights[i]);
         }
-        for (int i = 0; i < this.bias.length; i++) {
+        for (int i = 0; i < this.bias.length; i++)
             for (int j = 0; j < this.bias[i].size(); j++) {
                 float r = p.random(1);
-                if (r < 0.5)
+                if (r < 0.5) {
+//                    System.out.println(j + " " + merger.bias[i].size()+ " "+this.bias[i].size()+" "+p2.bias[i].size());
                     merger.bias[i].set(j, this.bias[i].get(j));
+                }
             }
-        }
         return merger;
     }
 
     public void mutate() {
-        float mutationRate = 0.01f;
+        float mutationRate = 0.1f;
         //mutate bias
         for (int i = 0; i < bias.length; i++)
             for (int j = 0; j < bias[i].size(); j++) {
                 float rand = p.random(1);
                 if (rand < mutationRate) {
                     float editBias = p.random(-1, 1);
-                    bias[i].add(j, editBias);
+                    bias[i].set(j, editBias);
                 }
+//                if(p1.nn.bias[0].size()!=p1.nn.bias[0].size())
             }
         for (Matrix x : weights)
             x.mutate();

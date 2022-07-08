@@ -12,6 +12,9 @@ class SmartDot {
     PVector vel;
     PVector acc;
     NeuralNetwork nn;
+    float timeSpendAroundTarget = 0.0f;
+    float closeToGoal = 0.0f;
+
     int d = 4;
     boolean dead = false;
     float fitness = 0.0f;
@@ -37,15 +40,20 @@ class SmartDot {
 
     public void caculateFitness() {
         if (reachedGoal) {
-            fitness = 1.0f / 16.0f + 10000.0f / (float) (nn.step*nn.step);
+            fitness = 5000 + 10f * closeToGoal;
         } else {
-            float distanceToGoal = dist(pos.x, pos.y, Main.goal.x, Main.goal.y);
             //Todo : use the time spent around the target as an important factor
-            fitness = 50.0f / (distanceToGoal * distanceToGoal);
+            fitness = 10 * closeToGoal;
         }
+
     }
 
     public void update() {
+//        if (!reachedGoal)
+        timeSpendAroundTarget += dist(pos.x, pos.y, Main.goal.x, Main.goal.y) / 500;
+        if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) <= 10)
+            closeToGoal++;
+
         if (!dead && !reachedGoal) {
             move();
             //hits wall
@@ -60,20 +68,24 @@ class SmartDot {
                     return;
                 }
             //hits goal
+
             if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) < 5)
                 reachedGoal = true;
 
         }
     }
 
-    public SmartDot givemeBaby(SmartDot p2) {
+    public SmartDot givemeBaby(SmartDot p2, boolean isBest) {
         ///-----------------Can merge multiple parent for more complex projects-----------------
         SmartDot baby = new SmartDot();
-        if(!this.isBest) {
+
+
+        if (!isBest)
             baby.nn = nn.merge(p2.nn);
+//            baby.nn=nn.clone();
+        else {
+            baby.nn = nn.clone();
         }
-        else
-            baby.nn=nn.clone();
         return baby;
     }
 
@@ -81,11 +93,13 @@ class SmartDot {
         PVector acc = new PVector(0, 0);
         if (nn.maxNrStep > nn.step) {
             ArrayList<Float> ans = nn.process(pos, vel, Main.goal);
+//            System.out.println(ans);
+            nn.step++;
+            //Interpret ans
             float up = ans.get(0);
             float down = ans.get(1);
             float right = ans.get(2);
             float left = ans.get(3);
-            nn.step++;
             int x, y;
             if (up > down) x = -1;
             else x = 1;
@@ -99,6 +113,5 @@ class SmartDot {
         vel.add(acc);
         vel.limit(5);
         pos.add(vel);
-//        System.out.println(acc);
     }
 }

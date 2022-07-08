@@ -17,7 +17,6 @@ class Brain {
         for (int i = 0; i < directions.length; i++) {
             float randomAngle = Main.p.random((float) (2 * PI));
             directions[i] = PVector.fromAngle(randomAngle);
-//            System.out.println(directions[i]);
         }
     }
 
@@ -30,7 +29,7 @@ class Brain {
     }
 
     public void mutate() {
-        float mutationRate = 0.01f;
+        float mutationRate = 0.1f;
         for (int i = 0; i < directions.length; i++) {
             float rand = Main.p.random(1);
             if (rand < mutationRate) {

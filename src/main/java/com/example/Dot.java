@@ -41,7 +41,6 @@ class Dot {
         } else {
             dead=true;
         }
-//        System.out.println(acc.x+" "+acc.y);
         vel.add(acc);
         vel.limit(5);
         pos.add(vel);

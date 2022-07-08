@@ -21,7 +21,7 @@ public class SmartPopulation {
         for (int i = 1; i < dots.length; i++)
             dots[i].show();
         dots[0].show();
-        DisplayNetwork d=new DisplayNetwork(50,50,10,dots[0].nn);
+        DisplayNetwork d = new DisplayNetwork(50, 50, 10, dots[0].nn);
         d.show();
     }
 
@@ -47,32 +47,26 @@ public class SmartPopulation {
     }
 
     public void naturalSelection() {
+        Main.goal=new PVector(400,100);
+        Main.goalMove=new PVector(1,-1);
+
         SmartDot[] newDots = new SmartDot[dots.length];
         setBestDot();
         calculateFitnessSum();
+        SmartDot parent1 = selectParent();
+        newDots[0] = dots[bestDot].givemeBaby(parent1,true);
 
-        newDots[0] = dots[bestDot].givemeBaby(selectParent());
         //HEre we don't ise the parent
-//        System.out.println(dots[bestDot].fitness);
         newDots[0].isBest = true;
-//        for(Matrix m :dots[bestDot].nn.weights)
-//            m.print();
-//        System.out.println("V-bias-V");
-//        for(ArrayList<Float> bs:dots[bestDot].nn.bias) {
-//            for (float x : bs)
-//                System.out.print(x);
-//            System.out.println();
-//
-//        }
-//        System.out.println("-------------------");
 
 
         for (int i = 1; i < newDots.length; i++) {
             //select parent based on fitness
-            SmartDot parent = selectParent();
+            SmartDot p1 = selectParent();
+            SmartDot p2 = selectParent();
             //get the BABY for theme
 
-            newDots[i] = parent.givemeBaby(selectParent());
+            newDots[i] = p1.givemeBaby(p2,false);
         }
         dots = newDots.clone();
         gen++;
@@ -84,7 +78,7 @@ public class SmartPopulation {
             fitnessSum += x.fitness;
     }
 
-    public  SmartDot selectParent() {
+    public SmartDot selectParent() {
         float rand = Main.p.random(fitnessSum);
 
         float runningSum = 0;
@@ -114,10 +108,9 @@ public class SmartPopulation {
                 maxIndex = i;
             }
         bestDot = maxIndex;
-
+            System.out.println(maxi);
         if (dots[bestDot].reachedGoal) {
             minStep = dots[bestDot].nn.step;
-//            System.out.println("step:" + minStep);
         }
     }
 
