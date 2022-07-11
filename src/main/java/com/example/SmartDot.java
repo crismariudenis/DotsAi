@@ -14,6 +14,7 @@ class SmartDot {
     NeuralNetwork nn;
     float timeSpendAroundTarget = 0.0f;
     float closeToGoal = 0.0f;
+    int timesCloseToGoal=0;
 
     int d = 4;
     boolean dead = false;
@@ -40,19 +41,22 @@ class SmartDot {
 
     public void caculateFitness() {
         if (reachedGoal) {
-            fitness = 5000 + 10f * closeToGoal;
+            fitness = 100 + 100f * closeToGoal;
         } else {
             //Todo : use the time spent around the target as an important factor
-            fitness = 10 * closeToGoal;
+            fitness = 0.1f+100 * closeToGoal;
         }
-
+//        System.out.println(fitness );
     }
 
     public void update() {
 //        if (!reachedGoal)
-        timeSpendAroundTarget += dist(pos.x, pos.y, Main.goal.x, Main.goal.y) / 500;
-        if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) <= 10)
-            closeToGoal++;
+        if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) <= 10 && !dead) {
+            timesCloseToGoal++;
+            closeToGoal+=timesCloseToGoal;
+        }
+        else
+            timesCloseToGoal=0;
 
         if (!dead && !reachedGoal) {
             move();

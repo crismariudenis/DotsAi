@@ -32,7 +32,7 @@ public class NeuralNetwork {
 
     ArrayList<Float> process(PVector pos, PVector vel, PVector acc) {
         PVector target = new PVector(Main.goal.x, Main.goal.y);
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x, pos.y,vel.x,vel.y, target.x, target.y));
+        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x, pos.y,vel.x,vel.y, target.x, target.y, goalMove.x,goalMove.y));
 //Todo:Try to remove vel from the input
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);
@@ -109,7 +109,7 @@ public class NeuralNetwork {
     }
 
     public void mutate() {
-        float mutationRate = 0.1f;
+        float mutationRate = 0.01f;
         //mutate bias
         for (int i = 0; i < bias.length; i++)
             for (int j = 0; j < bias[i].size(); j++) {
@@ -125,4 +125,5 @@ public class NeuralNetwork {
         //mutate weights
 
     }
+
 }

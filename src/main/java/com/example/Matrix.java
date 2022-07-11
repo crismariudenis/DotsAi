@@ -55,7 +55,7 @@ public class Matrix {
     }
 
     public void mutate() {
-        float mutationRate = 0.1f;
+        float mutationRate = 0.01f;
         for (int i = 0; i < w.length; i++)
             for (int j = 0; j < w[i].length; j++) {
                 float rand = p.random(1);
@@ -89,6 +89,14 @@ public class Matrix {
                 clone.w[i][j] = this.w[i][j];
             }
         return clone;
+    }
+    public int compare(Matrix m){
+        int ans=0;
+        for(int i=0;i<height;i++)
+            for(int j=0;j<width;j++)
+                if(m.w[i][j]!=this.w[i][j])
+                    ans++;
+    return ans;
     }
 
 }
