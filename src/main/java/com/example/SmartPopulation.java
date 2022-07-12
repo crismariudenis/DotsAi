@@ -2,8 +2,6 @@ package com.example;
 
 import processing.core.PVector;
 
-import java.util.ArrayList;
-import static com.example.Main.*;
 import static com.example.Main.p;
 public class SmartPopulation {
     SmartDot[] dots;
@@ -48,14 +46,14 @@ public class SmartPopulation {
     }
 
     public void naturalSelection() {
-        Main.goal=new PVector(400,100);
+        Main.goal=new PVector(p.random(100, p.width-100),100);
         float x,y;
 //        y=p.random(1)<0.5?1:-1;
 //        x=p.random(1)<0.5?1:-1;
         y=p.random(-3,3);
         x=p.random(-3,3);
 
-        Main.goalMove=new PVector(x,-y);
+        Main.goalVel =new PVector(x,-y);
 
         SmartDot[] newDots = new SmartDot[dots.length];
         setBestDot();

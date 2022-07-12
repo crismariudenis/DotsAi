@@ -30,10 +30,9 @@ public class NeuralNetwork {
         }
     }
 
-    ArrayList<Float> process(PVector pos, PVector vel, PVector acc) {
-        PVector target = new PVector(Main.goal.x, Main.goal.y);
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x, pos.y,vel.x,vel.y, target.x, target.y, goalMove.x,goalMove.y));
-//Todo:Try to remove vel from the input
+    ArrayList<Float> process(PVector pos, PVector vel) {
+        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x,pos.y,p.width-pos.x,p.height-pos.y,pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
+//  THIS IS GOOD:      ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);
             System.exit(0);

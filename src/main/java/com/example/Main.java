@@ -10,7 +10,7 @@ public class Main extends PApplet {
 
     SmartPopulation test;
     public static Obstacle[] walls;
-    public static int[] nnShape = new int[]{8, 8, 8, 4};
+    public static int[] nnShape = new int[]{10, 16,8, 4};
     //Todo: Search for a better shape
 
     //Todo:Check if the dots move as intended
@@ -18,7 +18,7 @@ public class Main extends PApplet {
     //    public static int[] nnShape = new int[]{3,1};
 //    public static PVector goal =
     public static PVector goal = new PVector(400, 100);
-    public static PVector goalMove = new PVector(1, -1);
+    public static PVector goalVel = new PVector(1, -1);
 
     public static final int nrObstacles = 0;
 
@@ -48,14 +48,13 @@ public class Main extends PApplet {
 
     public void draw() {
 
-//        goal.x=mouseX;
-//        goal.y=mouseY;
+        //Todo: Make multiple movements like curvature and mouse
 
-        if (goal.x + goalMove.x > width - 10 || goal.x + goalMove.x < 10)
-            goalMove.x *= -1;
-        if (goal.y + goalMove.y > height - 10 || goal.y + goalMove.x < 10)
-            goalMove.y *= -1;
-        goal.add(goalMove);
+        if (goal.x + goalVel.x > width - 10 || goal.x + goalVel.x < 10)
+            goalVel.x *= -1;
+        if (goal.y + goalVel.y > height - 10 || goal.y + goalVel.x < 10)
+            goalVel.y *= -1;
+        goal.add(goalVel);
         background(200);
         fill(255, 0, 0);
         ellipse(goal.x, goal.y, 10, 10);
@@ -75,7 +74,7 @@ public class Main extends PApplet {
     }
 
     public void settings() {
-        size(750, 750);
+        size(900, 900);
     }
 
     static public void main(String[] args) {
