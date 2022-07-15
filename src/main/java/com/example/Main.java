@@ -10,10 +10,9 @@ public class Main extends PApplet {
 
     SmartPopulation test;
     public static Obstacle[] walls;
-    public static int[] nnShape = new int[]{10, 16,8, 4};
+    public static int[] nnShape = new int[]{4, 8, 4};
     //Todo: Search for a better shape
 
-    //Todo:Check if the dots move as intended
 
     //    public static int[] nnShape = new int[]{3,1};
 //    public static PVector goal =
@@ -26,7 +25,7 @@ public class Main extends PApplet {
         p = this;
         /* size commented out by preprocessor */
         frameRate(120);
-        test = new SmartPopulation(2000);
+        test = new SmartPopulation(1000);
 
 
         // walls =new Obstacle[2];
@@ -48,7 +47,7 @@ public class Main extends PApplet {
 
     public void draw() {
 
-        //Todo: Make multiple movements like curvature and mouse
+        //Todo: Make multiple movements like curvature and mouse / GENERATE THE SHAPE AT THE BEGINNING
 
         if (goal.x + goalVel.x > width - 10 || goal.x + goalVel.x < 10)
             goalVel.x *= -1;

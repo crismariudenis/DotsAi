@@ -31,7 +31,8 @@ public class NeuralNetwork {
     }
 
     ArrayList<Float> process(PVector pos, PVector vel) {
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x,pos.y,p.width-pos.x,p.height-pos.y,pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
+        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x+vel.x-(goal.x+ goalVel.x), pos.y+vel.y-(goal.y+ goalVel.y),pos.x-goal.x,pos.y-goal.y));
+        //Todo: Maybe change the pos of the walls with dif of velocity
 //  THIS IS GOOD:      ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);

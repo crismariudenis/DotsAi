@@ -13,7 +13,7 @@ class SmartDot {
     PVector acc;
     NeuralNetwork nn;
     float closeToGoal = 0.0f;
-    int timesCloseToGoal=0;
+    int timesCloseToGoal = 0;
 
     int d = 4;
     boolean dead = false;
@@ -40,21 +40,19 @@ class SmartDot {
 
     public void caculateFitness() {
         if (reachedGoal) {
-            fitness = 0.1f + 100f * closeToGoal;
+            fitness = 5f;
         } else {
-            //Todo : use the time spent around the target as an important factor
-            fitness = 0.1f+100 * closeToGoal;
+            fitness = 0.1f + 1f * closeToGoal;
         }
 //        System.out.println(fitness );
     }
 
     public void update() {
-        if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) <= 10 && !dead) {
+        if (dist(pos.x, pos.y, goal.x, goal.y) <= 30 && !dead) {
             timesCloseToGoal++;
-            closeToGoal+=timesCloseToGoal;
-        }
-        else
-            timesCloseToGoal=0;
+            closeToGoal += timesCloseToGoal;
+        } else
+            timesCloseToGoal = 0;
 
         if (!dead && !reachedGoal) {
             move();
@@ -103,10 +101,8 @@ class SmartDot {
             float right = ans.get(2);
             float left = ans.get(3);
             int x, y;
-            if (up > down) x = -1;
-            else x = 1;
-            if (right > left) y = 1;
-            else y = -1;
+            x = up > down ? -1 : 1;
+            y = right > left ? 1 : -1;
             if (up == down) y = 0;
             if (right == left) x = 0;
             acc = new PVector(x, y);

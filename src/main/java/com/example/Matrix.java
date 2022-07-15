@@ -90,13 +90,18 @@ public class Matrix {
             }
         return clone;
     }
-    public int compare(Matrix m){
-        int ans=0;
-        for(int i=0;i<height;i++)
-            for(int j=0;j<width;j++)
-                if(m.w[i][j]!=this.w[i][j])
+
+    public int compare(Matrix m) {
+        int ans = 0;
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                if (m.w[i][j] != this.w[i][j])
                     ans++;
-    return ans;
+        return ans;
+    }
+
+    public float get(int x, int y) {
+        return w[x][y];
     }
 
 }
