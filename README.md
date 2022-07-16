@@ -1,7 +1,7 @@
 
-# DotsNeat
+# DotsAi
 
-This project was my first atempt to use Neural Networks using an evolution algorithm.
+This project was my first attempt to use Neural Networks using an evolution algorithm.
 
 
 ## Editable neural network shape
