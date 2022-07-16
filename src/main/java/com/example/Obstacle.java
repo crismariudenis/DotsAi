@@ -17,7 +17,6 @@ class Obstacle {
         Main.p.rect(x, y, w, h);
     }
 
-
     public boolean hit(SmartDot dot) {
         return dot.pos.x >= x && dot.pos.x <= x + w && dot.pos.y >= y && dot.pos.y <= y + h;
     }

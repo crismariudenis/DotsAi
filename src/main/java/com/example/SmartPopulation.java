@@ -14,14 +14,13 @@ public class SmartPopulation {
     int gen = 1;
     int bestDot = 0;
     int minStep = 400;
-    static int maxFitness =0;
+    static int maxFitness = 0;
 
     SmartPopulation(int size) {
         dots = new SmartDot[size];
         for (int i = 0; i < size; i++)
             dots[i] = new SmartDot();
         dn = new DisplayNetwork(50, 50, 10, dots[0].nn);
-        //Todo : First calculate  the coordinates of all the neurons in function inside SmartPopulation to avoid recalculating, than trace the lines,draw circles ,and display names
 
     }
 
@@ -29,18 +28,15 @@ public class SmartPopulation {
         for (int i = 1; i < dots.length; i++)
             dots[i].show();
         dots[0].show();
-
         dn.show();
     }
 
     public void calculateFitness() {
-        for (SmartDot x : dots) {
-            x.caculateFitness();
-        }
+        for (SmartDot x : dots)
+            x.calculateFitness();
     }
 
     public void update() {
-
         for (SmartDot x : dots)
             if (x.nn.step > x.nn.maxNrStep)
                 x.dead = true;
@@ -59,11 +55,9 @@ public class SmartPopulation {
         Main.goal = new PVector(p.random(100, p.width - 100), 100);
 
 
-        float x, y;
-//        y=p.random(1)<0.5?1:-1;
-//        x=p.random(1)<0.5?1:-1;
-        y = p.random(-3, 3);
-        x = p.random(-3, 3);
+        //generate goal velocity
+        float y = p.random(-3, 3);
+        float x = p.random(-3, 3);
 
         Main.goalVel = new PVector(x, -y);
 
@@ -73,18 +67,16 @@ public class SmartPopulation {
         SmartDot parent1 = selectParent();
         newDots[0] = dots[bestDot].givemeBaby(parent1, true);
 
-        // HEre we don't ise the parent
         newDots[0].isBest = true;
-        maxFitness =max(maxFitness,(int)dots[bestDot].fitness);
-        //change the displayed netwrok
+        maxFitness = max(maxFitness, (int) dots[bestDot].fitness);
+        //change the displayed network
         dn.changeNetwork(dots[bestDot].nn);
 
         for (int i = 1; i < newDots.length; i++) {
             //select parent based on fitness
             SmartDot p1 = selectParent();
             SmartDot p2 = selectParent();
-            //get the BABY for theme
-
+            //get the BABY for the 2 parents
             newDots[i] = p1.givemeBaby(p2, false);
         }
         dots = newDots.clone();
@@ -97,25 +89,21 @@ public class SmartPopulation {
             fitnessSum += x.fitness;
     }
 
+    //select parent based on fitness
     public SmartDot selectParent() {
-        float rand = Main.p.random(fitnessSum);
-
+        float rand = p.random(fitnessSum);
         float runningSum = 0;
-
-
-        for (int i = 0; i < dots.length; i++) {
-            runningSum += dots[i].fitness;
-            if (runningSum > rand) {
-                return dots[i];
-            }
+        for (SmartDot x : dots) {
+            runningSum += x.fitness;
+            if (runningSum > rand)
+                return x;
         }
         System.out.println("HOW! DID YOU GET HERE?!");
         return null;
     }
 
     public void mutateBabies() {
-        for (int i = 0; i < dots.length; i++)
-            dots[i].nn.mutate();
+        for (SmartDot x : dots) x.nn.mutate();
     }
 
     public void setBestDot() {
@@ -127,9 +115,8 @@ public class SmartPopulation {
                 maxIndex = i;
             }
         bestDot = maxIndex;
-        if (dots[bestDot].reachedGoal) {
+        if (dots[bestDot].reachedGoal)
             minStep = dots[bestDot].nn.step;
-        }
     }
 
     //compare the weights and biases of th best and previous best player

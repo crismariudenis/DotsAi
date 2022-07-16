@@ -29,11 +29,12 @@ public class NeuralNetwork {
             initialize(bias[i], v[i]);
         }
     }
+    //returns the output after the matrices multiplications
 
     ArrayList<Float> process(PVector pos, PVector vel) {
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x+vel.x-(goal.x+ goalVel.x), pos.y+vel.y-(goal.y+ goalVel.y),pos.x-goal.x,pos.y-goal.y));
+        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x + vel.x - (goal.x + goalVel.x), pos.y + vel.y - (goal.y + goalVel.y), pos.x - goal.x, pos.y - goal.y));
         //Todo: Maybe change the pos of the walls with dif of velocity
-//  THIS IS GOOD:      ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
+//  THIS IS GOOD: ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);
             System.exit(0);
@@ -44,6 +45,7 @@ public class NeuralNetwork {
                 input = weights[i].calc(sigmoid(input), bias[i + 1]);
             }
         }
+        //lock the output between [-1,1]
         for (int i = 0; i < input.size(); i++) {
             if (input.get(i) <= -1)
                 input.set(i, -1f);
@@ -53,6 +55,7 @@ public class NeuralNetwork {
         return input;
     }
 
+    //initialize with random values
     private void initialize(ArrayList<Float> v, int size) {
         for (int i = 0; i < size; i++) {
             Random R = new Random();
@@ -62,22 +65,21 @@ public class NeuralNetwork {
 
     private ArrayList<Float> sigmoid(ArrayList<Float> v) {
         ArrayList<Float> ans = new ArrayList<Float>();
-        for (int i = 0; i < v.size(); i++)
-            ans.add(1 / (1 + exp(-v.get(i))));
+        for (Float x : v) ans.add(1 / (1 + exp(-x)));
         return ans;
     }
 
+    //returns a clone of a NeuralNetwork
     public NeuralNetwork clone() {
         NeuralNetwork clone = new NeuralNetwork(Main.nnShape);
         //clone the bias by value
         clone.bias = (ArrayList<Float>[]) new ArrayList[this.bias.length];
         for (int i = 0; i < this.bias.length; i++) {
             clone.bias[i] = new ArrayList<Float>();
-                for(int j=0;j<this.bias[i].size();j++) {
-                    clone.bias[i].add(this.bias[i].get(j));
-                }
-        }
+            for (int j = 0; j < this.bias[i].size(); j++)
+                clone.bias[i].add(this.bias[i].get(j));
 
+        }
 
         clone.weights = new Matrix[this.weights.length];
         for (int i = 0; i < this.weights.length + 1; i++)
@@ -87,6 +89,7 @@ public class NeuralNetwork {
         return clone;
     }
 
+   //merge 2 NeuralNetwork
     public NeuralNetwork merge(NeuralNetwork p2) {
         NeuralNetwork merger = p2.clone();
 

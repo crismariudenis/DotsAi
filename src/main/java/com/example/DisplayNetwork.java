@@ -11,9 +11,7 @@ public class DisplayNetwork {
     float x, y, scale;
     float diameter, spacingX, spacingY;
     ArrayList<PVector>[] nodesCords;
-
     NeuralNetwork nn;
-    static PVector[][] neuronLocations;
 
     DisplayNetwork(float x, float y, float scale, NeuralNetwork nn) {
         this.x = x;
@@ -62,30 +60,28 @@ public class DisplayNetwork {
                 p.ellipse(n.x, n.y, diameter, diameter);
         }
     }
-    public void changeNetwork(NeuralNetwork nn){
-        this.nn=nn;
+
+    public void changeNetwork(NeuralNetwork nn) {
+        this.nn = nn;
     }
 
     private void showWeights() {
-
         for (int LAYER = 0; LAYER < nnShape.length - 1; LAYER++) {
             for (int i = 0; i < nn.weights[LAYER].width; i++)
                 for (int j = 0; j < nn.weights[LAYER].height; j++) {
                     float W = nn.weights[LAYER].get(j, i);
-                   if(W>0)
-                       p.stroke(0,0,255);
-                   else if(W<0)
-                       p.stroke(255,0,0);
-                   else
-                       p.stroke(0);
-                    PVector p1=nodesCords[LAYER].get(j);
-                    PVector p2=nodesCords[LAYER+1].get(i);
+                    if (W > 0)
+                        p.stroke(0, 0, 255);
+                    else if (W < 0)
+                        p.stroke(255, 0, 0);
+                    else
+                        p.stroke(0);
+                    PVector p1 = nodesCords[LAYER].get(j);
+                    PVector p2 = nodesCords[LAYER + 1].get(i);
                     p.line(p1.x, p1.y, p2.x, p2.y);
                 }
         }
         p.stroke(0);
-
     }
-
 }
 

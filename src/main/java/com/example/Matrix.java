@@ -1,7 +1,5 @@
 package com.example;
 
-import processing.core.PVector;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,14 +20,16 @@ public class Matrix {
         initialize(mini, maxi);
     }
 
+    //initialize the Matrix with random values
     private void initialize(float mini, float maxi) {
         for (int i = 0; i < height; i++)
             for (int j = 0; j < width; j++) {
                 Random R = new Random();
-                w[i][j] = (float) mini + R.nextFloat() * (maxi - mini);//----------------------DELETE INT
+                w[i][j] = mini + R.nextFloat() * (maxi - mini);
             }
     }
 
+    //print the Matrix
     void print() {
         for (int i = 0; i < height; i++, System.out.println())
             for (int j = 0; j < width; j++) {
@@ -37,6 +37,7 @@ public class Matrix {
             }
     }
 
+    //calculate the output from every layer
     public ArrayList<Float> calc(ArrayList<Float> input, ArrayList<Float> bias) {
         ArrayList<Float> ans = new ArrayList<Float>();
         if (height != input.size()) {
@@ -45,9 +46,8 @@ public class Matrix {
         } else {
             for (int i = 0; i < width; i++) {
                 float aux = bias.get(i);
-                for (int j = 0; j < height; j++) {
+                for (int j = 0; j < height; j++)
                     aux += w[j][i] * input.get(j);
-                }
                 ans.add(aux);
             }
         }
@@ -66,8 +66,8 @@ public class Matrix {
             }
     }
 
+    //merge two matrices with 50%
     public Matrix merge(Matrix x) {
-        //this & x
         Matrix ans = this.copy();
 
         for (int i = 0; i < height; i++)
@@ -80,17 +80,16 @@ public class Matrix {
     }
 
     public Matrix copy() {
-        //create a new Random Matrix
         Matrix clone = new Matrix(height, width, -100, 100);
         clone.width = this.width;
         clone.height = this.height;
         for (int i = 0; i < height; i++)
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < width; j++)
                 clone.w[i][j] = this.w[i][j];
-            }
         return clone;
     }
 
+    //compare the number of differences between two matrices
     public int compare(Matrix m) {
         int ans = 0;
         for (int i = 0; i < height; i++)

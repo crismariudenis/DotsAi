@@ -5,7 +5,6 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 import static com.example.Main.*;
-import static com.example.Main.p;
 
 class SmartDot {
     PVector pos;
@@ -22,7 +21,7 @@ class SmartDot {
     boolean isBest = false;
 
     SmartDot() {
-        pos = new PVector(Main.p.width / 2, Main.p.height - 10);
+        pos = new PVector(p.width / 2, p.height - 10);
         vel = new PVector(0, 0);
         acc = new PVector(0, 0);
         nn = new NeuralNetwork(Main.nnShape);
@@ -38,13 +37,12 @@ class SmartDot {
         }
     }
 
-    public void caculateFitness() {
+    public void calculateFitness() {
         if (reachedGoal) {
             fitness = 5f;
         } else {
-            fitness = 0.1f + 1f * closeToGoal;
+            fitness = 0.1f + closeToGoal;
         }
-//        System.out.println(fitness );
     }
 
     public void update() {
@@ -57,32 +55,29 @@ class SmartDot {
         if (!dead && !reachedGoal) {
             move();
             //hits wall
-            if (min(pos.x, pos.y) < d / 2 || pos.x > Main.p.width - d / 2 || pos.y > Main.p.height - d / 2) {
+            if (min(pos.x, pos.y) < d / 2 || pos.x > p.width - d / 2 || pos.y > p.height - d / 2) {
                 dead = true;
                 return;
             }
             //hits obstacles
-            for (int i = 0; i < Main.nrObstacles; i++)
-                if (Main.walls[i].hit(this)) {
+            for (Obstacle x : walls)
+                if (x.hit(this)) {
                     dead = true;
                     return;
                 }
             //hits goal
 
-            if (dist(pos.x, pos.y, Main.goal.x, Main.goal.y) < 5)
+            if (dist(pos.x, pos.y, goal.x, goal.y) < 5)
                 reachedGoal = true;
 
         }
     }
 
     public SmartDot givemeBaby(SmartDot p2, boolean isBest) {
-        ///-----------------Can merge multiple parent for more complex projects-----------------
         SmartDot baby = new SmartDot();
-
-
+        //if isn't best merge two parents
         if (!isBest)
             baby.nn = nn.merge(p2.nn);
-//            baby.nn=nn.clone();
         else {
             baby.nn = nn.clone();
         }
@@ -99,9 +94,8 @@ class SmartDot {
             float down = ans.get(1);
             float right = ans.get(2);
             float left = ans.get(3);
-            int x, y;
-            x = up > down ? -1 : 1;
-            y = right > left ? 1 : -1;
+            int x = up > down ? -1 : 1;
+            int y = right > left ? 1 : -1;
             if (up == down) y = 0;
             if (right == left) x = 0;
             acc = new PVector(x, y);
