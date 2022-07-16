@@ -60,8 +60,8 @@ class SmartDot {
                 return;
             }
             //hits obstacles
-            for (Obstacle x : walls)
-                if (x.hit(this)) {
+            for (int i = 0; i < nrObstacles; i++)
+                if (walls[i].hit(this)) {
                     dead = true;
                     return;
                 }
