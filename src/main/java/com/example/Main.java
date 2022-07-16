@@ -12,10 +12,6 @@ public class Main extends PApplet {
     public static Obstacle[] walls;
     public static int[] nnShape = new int[]{4, 8, 4};
     //Todo: Search for a better shape
-
-
-    //    public static int[] nnShape = new int[]{3,1};
-//    public static PVector goal =
     public static PVector goal = new PVector(400, 100);
     public static PVector goalVel = new PVector(1, -1);
 
@@ -26,13 +22,9 @@ public class Main extends PApplet {
         /* size commented out by preprocessor */
         frameRate(120);
         test = new SmartPopulation(1000);
-
-
         // walls =new Obstacle[2];
         //walls[0]=new Obstacle(400, 300, 600, 10);
         //walls[1]=new Obstacle(0, 450, 600, 10);
-
-
     }
 
     public void menu() {
@@ -43,6 +35,7 @@ public class Main extends PApplet {
             s.append(x).append(" ");
         String S= String.valueOf(s);
         text(S, 5, height-20);
+        text("Best fitness: "+SmartPopulation.maxFitness,5,height-120);
     }
 
     public void draw() {

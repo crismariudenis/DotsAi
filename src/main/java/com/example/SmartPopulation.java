@@ -2,11 +2,10 @@ package com.example;
 
 import processing.core.PVector;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-import static com.example.Main.nnShape;
 import static com.example.Main.p;
+import static java.lang.Math.max;
 
 public class SmartPopulation {
     SmartDot[] dots;
@@ -15,6 +14,7 @@ public class SmartPopulation {
     int gen = 1;
     int bestDot = 0;
     int minStep = 400;
+    static int maxFitness =0;
 
     SmartPopulation(int size) {
         dots = new SmartDot[size];
@@ -76,7 +76,7 @@ public class SmartPopulation {
         //
         // HEre we don't ise the parent
         newDots[0].isBest = true;
-        System.out.println(dots[bestDot].fitness);
+        maxFitness =max(maxFitness,(int)dots[bestDot].fitness);
 
 
         for (int i = 1; i < newDots.length; i++) {

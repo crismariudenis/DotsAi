@@ -42,7 +42,6 @@ public class NeuralNetwork {
             for (int i = 0; i < Main.nnShape.length - 1; i++) {
                 //Multiply the weight matrix by the input
                 input = weights[i].calc(sigmoid(input), bias[i + 1]);
-//                System.out.println("input:"+input);
             }
         }
         for (int i = 0; i < input.size(); i++) {
@@ -51,7 +50,6 @@ public class NeuralNetwork {
             else if (input.get(i) >= 1)
                 input.set(i, 1f);
         }
-//       System.out.println(input);
         return input;
     }
 
@@ -101,7 +99,6 @@ public class NeuralNetwork {
             for (int j = 0; j < this.bias[i].size(); j++) {
                 float r = p.random(1);
                 if (r < 0.5) {
-//                    System.out.println(j + " " + merger.bias[i].size()+ " "+this.bias[i].size()+" "+p2.bias[i].size());
                     merger.bias[i].set(j, this.bias[i].get(j));
                 }
             }
@@ -111,18 +108,17 @@ public class NeuralNetwork {
     public void mutate() {
         float mutationRate = 0.01f;
         //mutate bias
-        for (int i = 0; i < bias.length; i++)
-            for (int j = 0; j < bias[i].size(); j++) {
+        for (ArrayList<Float> bia : bias)
+            for (int j = 0; j < bia.size(); j++) {
                 float rand = p.random(1);
                 if (rand < mutationRate) {
                     float editBias = p.random(-1, 1);
-                    bias[i].set(j, editBias);
+                    bia.set(j, editBias);
                 }
-//                if(p1.nn.bias[0].size()!=p1.nn.bias[0].size())
             }
+        //mutate weights
         for (Matrix x : weights)
             x.mutate();
-        //mutate weights
 
     }
 

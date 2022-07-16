@@ -93,7 +93,6 @@ class SmartDot {
         PVector acc = new PVector(0, 0);
         if (nn.maxNrStep > nn.step) {
             ArrayList<Float> ans = nn.process(pos, vel);
-//            System.out.println(ans);
             nn.step++;
             //Interpret ans
             float up = ans.get(0);
