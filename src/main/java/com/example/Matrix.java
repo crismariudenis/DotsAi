@@ -55,7 +55,7 @@ public class Matrix {
     }
 
     public void mutate() {
-        float mutationRate = 0.001f;
+        float mutationRate = 0.01f;
         for (int i = 0; i < w.length; i++)
             for (int j = 0; j < w[i].length; j++) {
                 float rand = p.random(1);
