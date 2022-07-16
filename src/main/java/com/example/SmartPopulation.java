@@ -72,12 +72,12 @@ public class SmartPopulation {
         calculateFitnessSum();
         SmartDot parent1 = selectParent();
         newDots[0] = dots[bestDot].givemeBaby(parent1, true);
-//        compare();
-        //
+
         // HEre we don't ise the parent
         newDots[0].isBest = true;
         maxFitness =max(maxFitness,(int)dots[bestDot].fitness);
-
+        //change the displayed netwrok
+        dn.changeNetwork(dots[bestDot].nn);
 
         for (int i = 1; i < newDots.length; i++) {
             //select parent based on fitness

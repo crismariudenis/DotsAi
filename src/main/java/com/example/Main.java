@@ -21,7 +21,7 @@ public class Main extends PApplet {
         p = this;
         /* size commented out by preprocessor */
         frameRate(120);
-        test = new SmartPopulation(1000);
+        test = new SmartPopulation(2000);
         // walls =new Obstacle[2];
         //walls[0]=new Obstacle(400, 300, 600, 10);
         //walls[1]=new Obstacle(0, 450, 600, 10);

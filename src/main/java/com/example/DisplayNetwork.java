@@ -62,6 +62,9 @@ public class DisplayNetwork {
                 p.ellipse(n.x, n.y, diameter, diameter);
         }
     }
+    public void changeNetwork(NeuralNetwork nn){
+        this.nn=nn;
+    }
 
     private void showWeights() {
 
