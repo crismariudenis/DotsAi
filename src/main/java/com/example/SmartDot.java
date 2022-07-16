@@ -40,7 +40,7 @@ class SmartDot {
 
     public void caculateFitness() {
         if (reachedGoal) {
-            fitness = 5f;
+            fitness = 1.1f*closeToGoal+5f;
         } else {
             fitness = 0.1f + 1f * closeToGoal;
         }
