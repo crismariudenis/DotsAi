@@ -31,10 +31,10 @@ ArrayList<Float> ans = nn.process(pos, vel);
 float up = ans.get(0);
 float down = ans.get(1);
 float right = ans.get(2);
-float left = ans.get(3);```
+float left = ans.get(3);
+```
 
-    
+https://user-images.githubusercontent.com/78813212/181917112-15ac14e6-65b2-4061-8495-6f20a153f1cb.mp4
 
-https://user-images.githubusercontent.com/78813212/180997495-e28398e2-021a-4c6d-8a07-484da8571595.mp4
 
 
