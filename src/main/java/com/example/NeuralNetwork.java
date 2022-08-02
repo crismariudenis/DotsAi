@@ -2,6 +2,7 @@ package com.example;
 
 import processing.core.PVector;
 
+import javax.security.auth.login.FailedLoginException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -31,9 +32,16 @@ public class NeuralNetwork {
     }
     //returns the output after the matrices multiplications
 
+   private ArrayList<Float> getInput(PVector pos, PVector vel){
+        ArrayList<Float>input=new ArrayList<Float>();
+        input.add(pos.x + vel.x - (goal.x + goalVel.x));
+        input.add(pos.y + vel.y - (goal.y + goalVel.y));
+        input.add( pos.x - goal.x);
+        input.add(pos.y - goal.y);
+        return input;
+   }
     ArrayList<Float> process(PVector pos, PVector vel) {
-        ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x + vel.x - (goal.x + goalVel.x), pos.y + vel.y - (goal.y + goalVel.y), pos.x - goal.x, pos.y - goal.y));
-        //Todo: Maybe change the pos of the walls with dif of velocity
+        ArrayList<Float>input=getInput(pos,vel);
 //  THIS IS GOOD: ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
         if (input.size() != Main.nnShape[0]) {
             System.out.println("Number of inputs=" + input.size() + "doesn't match the NN shape" + Main.nnShape[0]);
