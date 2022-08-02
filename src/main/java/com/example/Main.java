@@ -14,7 +14,7 @@ public class Main extends PApplet {
     //Todo: Generate a better shape
     public static PVector goal = new PVector(400, 100);
     public static PVector goalVel = new PVector(1, -1);
-    public static final float weightsMutationRate=0.01f;
+    public static final float weightsMutationRate=0.001f;
     public static final float biasMutationRate=0.01f;
 
     public static final int nrObstacles = 0;
