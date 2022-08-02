@@ -14,6 +14,8 @@ public class Main extends PApplet {
     //Todo: Generate a better shape
     public static PVector goal = new PVector(400, 100);
     public static PVector goalVel = new PVector(1, -1);
+    public static final float weightsMutationRate=0.01f;
+    public static final float biasMutationRate=0.01f;
 
     public static final int nrObstacles = 0;
 
@@ -38,7 +40,7 @@ public class Main extends PApplet {
     }
 
     public void draw() {
-
+        //Todo: Save the best of the generation in a file + add loading method from file
         //Todo: Make multiple movements like curvature and mouse / GENERATE THE SHAPE AT THE BEGINNING
 
         if (goal.x + goalVel.x > width - 10 || goal.x + goalVel.x < 10)

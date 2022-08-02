@@ -56,8 +56,8 @@ public class SmartPopulation {
 
 
         //generate goal velocity
-        float y = p.random(-3, 3);
-        float x = p.random(-3, 3);
+        float y = p.random(-2, 2);
+        float x = p.random(-2, 2);
 
         Main.goalVel = new PVector(x, -y);
 
@@ -65,7 +65,7 @@ public class SmartPopulation {
         setBestDot();
         calculateFitnessSum();
         SmartDot parent1 = selectParent();
-        newDots[0] = dots[bestDot].givemeBaby(parent1, true);
+        newDots[0] = dots[bestDot].giveBaby(parent1, true);
 
         newDots[0].isBest = true;
         maxFitness = max(maxFitness, (int) dots[bestDot].fitness);
@@ -77,7 +77,7 @@ public class SmartPopulation {
             SmartDot p1 = selectParent();
             SmartDot p2 = selectParent();
             //get the BABY for the 2 parents
-            newDots[i] = p1.givemeBaby(p2, false);
+            newDots[i] = p1.giveBaby(p2, false);
         }
         dots = newDots.clone();
         gen++;

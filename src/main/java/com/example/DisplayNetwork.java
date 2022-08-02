@@ -31,7 +31,7 @@ public class DisplayNetwork {
 //        showNames();
     }
 
-
+//calculate the location of the nodes diagram on the screen in pixels
     private void calculateNodesCords() {
         int maxi = -1;
         for (int x : nnShape)

@@ -11,7 +11,7 @@ class SmartDot {
     PVector vel;
     PVector acc;
     NeuralNetwork nn;
-    float closeToGoal = 0.0f;
+    float closeToGoalPoints = 0.0f;
     int timesCloseToGoal = 0;
 
     int d = 4;
@@ -38,17 +38,16 @@ class SmartDot {
     }
 
     public void calculateFitness() {
-        if (reachedGoal) {
+        if (reachedGoal)
             fitness = 5f;
-        } else {
-            fitness = 0.1f + closeToGoal;
-        }
+        else
+            fitness = 0.1f + closeToGoalPoints;
     }
 
     public void update() {
         if (dist(pos.x, pos.y, goal.x, goal.y) <= 30 && !dead) {
             timesCloseToGoal++;
-            closeToGoal += timesCloseToGoal;
+            closeToGoalPoints += timesCloseToGoal;
         } else
             timesCloseToGoal = 0;
 
@@ -60,11 +59,11 @@ class SmartDot {
                 return;
             }
             //hits obstacles
-            for (int i = 0; i < nrObstacles; i++)
-                if (walls[i].hit(this)) {
-                    dead = true;
-                    return;
-                }
+//            for (int i = 0; i < nrObstacles; i++)
+//                if (walls[i].hit(this)) {
+//                    dead = true;
+//                    return;
+//                }
             //hits goal
 
             if (dist(pos.x, pos.y, goal.x, goal.y) < 5)
@@ -73,14 +72,14 @@ class SmartDot {
         }
     }
 
-    public SmartDot givemeBaby(SmartDot p2, boolean isBest) {
+    public SmartDot giveBaby(SmartDot p2, boolean isBest) {
         SmartDot baby = new SmartDot();
         //if isn't best merge two parents
         if (!isBest)
-            baby.nn = nn.merge(p2.nn);
-        else {
+            baby.nn = merge(nn, p2.nn);
+        else
             baby.nn = nn.clone();
-        }
+
         return baby;
     }
 
@@ -89,20 +88,27 @@ class SmartDot {
         if (nn.maxNrStep > nn.step) {
             ArrayList<Float> ans = nn.process(pos, vel);
             nn.step++;
-            //Interpret ans
+
+            //get output nodes
             float up = ans.get(0);
             float down = ans.get(1);
             float right = ans.get(2);
             float left = ans.get(3);
-            int x = up > down ? -1 : 1;
-            int y = right > left ? 1 : -1;
-            if (up == down) y = 0;
-            if (right == left) x = 0;
+
+            //interpret output in range with {-1,0,1}
+            int x = Float.compare(down, up);
+            int y = Float.compare(right, left);
+
             acc = new PVector(x, y);
         } else
             dead = true;
         vel.add(acc);
         vel.limit(5);
         pos.add(vel);
+    }
+
+    //dummy function to make the code look better
+    private NeuralNetwork merge(NeuralNetwork a, NeuralNetwork b) {
+        return a.merge(b);
     }
 }

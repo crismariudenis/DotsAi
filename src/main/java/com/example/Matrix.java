@@ -3,6 +3,7 @@ package com.example;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.Main.*;
 import static com.example.Main.p;
 
 public class Matrix {
@@ -55,11 +56,10 @@ public class Matrix {
     }
 
     public void mutate() {
-        float mutationRate = 0.01f;
         for (int i = 0; i < w.length; i++)
             for (int j = 0; j < w[i].length; j++) {
                 float rand = p.random(1);
-                if (rand < mutationRate) {
+                if (rand < weightsMutationRate) {
                     float editWeight = p.random(-1, 1);
                     w[i][j] += editWeight;
                 }
