@@ -8,29 +8,25 @@ public class Main extends PApplet {
 
     public static PApplet p;
 
-    SmartPopulation test;
-    public static Obstacle[] walls;
-    public static int[] nnShape = new int[]{4, 8, 4};
-    //Todo: Generate a better shape
-    public static PVector goal = new PVector(400, 100);
-    public static PVector goalVel = new PVector(1, -1);
-    public static final float weightsMutationRate=0.001f;
-    public static final float biasMutationRate=0.01f;
+    SmartPopulation smartPop;
+    public static int[] nnShape = new int[]{8,12,10,10,4};
+    public static Goal goal;
+    public static final float weightsMutationRate = 0.001f;
+    public static final float biasMutationRate = 0.01f;
 
-    public static final int nrObstacles = 0;
+    public static boolean mouseMode=false;
 
     public void setup() {
         p = this;
         frameRate(120);
-        test = new SmartPopulation(2000);
-        // walls =new Obstacle[2];
-        //walls[0]=new Obstacle(400, 300, 600, 10);
-        //walls[1]=new Obstacle(0, 450, 600, 10);
+        generateNetworkShape(8,4);
+        smartPop = new SmartPopulation(2000);
+        goal=new Goal();
     }
 
     public void menu() {
         textSize(30);
-        text("Generations: " + test.gen, 5, height - 70);
+        text("Generations: " + smartPop.gen, 5, height - 70);
         StringBuilder s = new StringBuilder("NN shape: ");
         for (int x : nnShape)
             s.append(x).append(" ");
@@ -42,35 +38,48 @@ public class Main extends PApplet {
     public void draw() {
         //Todo: Save the best of the generation in a file + add loading method from file
         //Todo: Make multiple movements like curvature and mouse / GENERATE THE SHAPE AT THE BEGINNING
-
-        if (goal.x + goalVel.x > width - 10 || goal.x + goalVel.x < 10)
-            goalVel.x *= -1;
-        if (goal.y + goalVel.y > height - 10 || goal.y + goalVel.x < 10)
-            goalVel.y *= -1;
-        goal.add(goalVel);
         background(200);
-        fill(255, 0, 0);
-        ellipse(goal.x, goal.y, 10, 10);
+
+        goal.update();
+//        fill(0, 0, 255,100);
+//        ellipse(goal.x, goal.y, 100, 100);
         menu();
-
-        for (int i = 0; i < nrObstacles; i++)
-            walls[i].show();
-
-        if (test.allDotsDead()) {
-            test.calculateFitness();
-            test.naturalSelection();
-            test.mutateBabies();
+        if (smartPop.allDotsDead()) {
+            smartPop.calculateFitness();
+            smartPop.naturalSelection();
+            smartPop.mutateBabies();
         } else {
-            test.update();
-            test.show();
+            smartPop.update();
+            smartPop.show();
         }
     }
-
+    public void keyPressed(){
+        if (key == 's') {
+            mouseMode = !mouseMode;
+        }
+    }
     public void settings() {
         size(900, 900);
     }
 
-    static public void main(String[] args) {
+
+    private void generateNetworkShape(int input, int output) {
+        //////////////////
+        int maxNrLayers = 7;
+        int minNrLayers = 2;
+
+        int minNrNodes = 4;
+        int maxNrNodes = 12;
+        //////////////////
+        int nrLayers = (int) p.random(minNrLayers, maxNrLayers);
+        nnShape = new int[nrLayers + 2];
+        nnShape[0] = input;
+        nnShape[nnShape.length - 1] = output;
+        for (int i = 1; i < nnShape.length - 1; i++)
+            nnShape[i] = ceil(p.random(minNrNodes, maxNrNodes));
+    }
+
+    public static void main(String[] args) {
         PApplet.main("com.example.Main", args);
     }
 }

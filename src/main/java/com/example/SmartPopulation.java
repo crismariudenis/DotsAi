@@ -1,9 +1,9 @@
 package com.example;
 
-import processing.core.PVector;
 
 import java.util.Objects;
 
+import static com.example.Main.*;
 import static com.example.Main.p;
 import static java.lang.Math.max;
 
@@ -15,6 +15,7 @@ public class SmartPopulation {
     int bestDot = 0;
     int minStep = 400;
     static int maxFitness = 0;
+    static int dotsReachedGoals = 0;
 
     SmartPopulation(int size) {
         dots = new SmartDot[size];
@@ -30,6 +31,7 @@ public class SmartPopulation {
         dots[0].show();
         dn.show();
     }
+
 
     public void calculateFitness() {
         for (SmartDot x : dots)
@@ -51,15 +53,12 @@ public class SmartPopulation {
         return true;
     }
 
+
+
     public void naturalSelection() {
-        Main.goal = new PVector(p.random(100, p.width - 100), 100);
+        //generate the goal close barrier
+        Main.goal=new Goal();
 
-
-        //generate goal velocity
-        float y = p.random(-2, 2);
-        float x = p.random(-2, 2);
-
-        Main.goalVel = new PVector(x, -y);
 
         SmartDot[] newDots = new SmartDot[dots.length];
         setBestDot();
@@ -68,6 +67,8 @@ public class SmartPopulation {
         newDots[0] = dots[bestDot].giveBaby(parent1, true);
 
         newDots[0].isBest = true;
+//        System.out.println("Best fitness:"+ dots[bestDot].fitness+" DotsReachedGoal:"+dotsReachedGoals);
+
         maxFitness = max(maxFitness, (int) dots[bestDot].fitness);
         //change the displayed network
         dn.changeNetwork(dots[bestDot].nn);
@@ -76,11 +77,20 @@ public class SmartPopulation {
             //select parent based on fitness
             SmartDot p1 = selectParent();
             SmartDot p2 = selectParent();
+            //make sure the parents are different
+
+            while (p1 == p2) {
+//                System.out.println("parents are the same");
+                p1 = selectParent();
+            }
+
+
             //get the BABY for the 2 parents
             newDots[i] = p1.giveBaby(p2, false);
         }
         dots = newDots.clone();
         gen++;
+        dotsReachedGoals = 0;
     }
 
     public void calculateFitnessSum() {

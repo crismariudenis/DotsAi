@@ -5,6 +5,7 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 import static com.example.Main.*;
+import static com.example.Main.p;
 
 class SmartDot {
     PVector pos;
@@ -12,9 +13,9 @@ class SmartDot {
     PVector acc;
     NeuralNetwork nn;
     float closeToGoalPoints = 0.0f;
-    int timesCloseToGoal = 0;
+    float timesCloseToGoal = 0;
 
-    int d = 4;
+    int diameter = 4;
     boolean dead = false;
     float fitness = 0.0f;
     boolean reachedGoal = false;
@@ -28,64 +29,62 @@ class SmartDot {
     }
 
     public void show() {
+        if (dead || reachedGoal)
+            return;
         if (isBest) {
-            Main.p.fill(0, 255, 0);
-            Main.p.ellipse(pos.x, pos.y, 2 * d, 2 * d);
+            p.fill(0, 255, 0);
+            p.ellipse(pos.x, pos.y, 2 * diameter, 2 * diameter);
         } else {
-            Main.p.fill(0);
-            Main.p.ellipse(pos.x, pos.y, d, d);
+            p.fill(0);
+            p.ellipse(pos.x, pos.y, diameter, diameter);
         }
     }
 
     public void calculateFitness() {
-        if (reachedGoal)
-            fitness = 5f;
-        else
+        if (reachedGoal) {
+            fitness = 5+closeToGoalPoints/100;
+            SmartPopulation.dotsReachedGoals++;
+        } else
             fitness = 0.1f + closeToGoalPoints;
     }
 
     public void update() {
-        if (dist(pos.x, pos.y, goal.x, goal.y) <= 30 && !dead) {
-            timesCloseToGoal++;
-            closeToGoalPoints += timesCloseToGoal;
+        if (dist(pos.x, pos.y, goal.pos.x, goal.pos.y) <= 100 && !dead) {
+            timesCloseToGoal += 1f;
+            closeToGoalPoints+=timesCloseToGoal;
         } else
             timesCloseToGoal = 0;
 
         if (!dead && !reachedGoal) {
             move();
             //hits wall
-            if (min(pos.x, pos.y) < d / 2 || pos.x > p.width - d / 2 || pos.y > p.height - d / 2) {
+            if (min(pos.x, pos.y) < diameter / 2 || pos.x > p.width - diameter / 2 || pos.y > p.height - diameter / 2) {
                 dead = true;
                 return;
             }
-            //hits obstacles
-//            for (int i = 0; i < nrObstacles; i++)
-//                if (walls[i].hit(this)) {
-//                    dead = true;
-//                    return;
-//                }
+
             //hits goal
-
-            if (dist(pos.x, pos.y, goal.x, goal.y) < 5)
+            if (dist(pos.x, pos.y, goal.pos.x, goal.pos.y) < 5)
                 reachedGoal = true;
-
         }
     }
 
     public SmartDot giveBaby(SmartDot p2, boolean isBest) {
         SmartDot baby = new SmartDot();
+
         //if isn't best merge two parents
         if (!isBest)
             baby.nn = merge(nn, p2.nn);
         else
             baby.nn = nn.clone();
-
         return baby;
     }
 
     public void move() {
         PVector acc = new PVector(0, 0);
         if (nn.maxNrStep > nn.step) {
+
+
             ArrayList<Float> ans = nn.process(pos, vel);
             nn.step++;
 
@@ -107,7 +106,7 @@ class SmartDot {
         pos.add(vel);
     }
 
-    //dummy function to make the code look better
+    //dummy function to make the code look cleaner
     private NeuralNetwork merge(NeuralNetwork a, NeuralNetwork b) {
         return a.merge(b);
     }

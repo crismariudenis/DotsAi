@@ -40,7 +40,7 @@ public class Matrix {
 
     //calculate the output from every layer
     public ArrayList<Float> calc(ArrayList<Float> input, ArrayList<Float> bias) {
-        ArrayList<Float> ans = new ArrayList<Float>();
+        ArrayList<Float> ans = new ArrayList<>();
         if (height != input.size()) {
             System.out.println("Height of the matrix=" + height + " differs from the with of the vector=" + input.size());
             System.exit(0);

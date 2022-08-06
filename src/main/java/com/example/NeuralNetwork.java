@@ -32,22 +32,25 @@ public class NeuralNetwork {
 
     private ArrayList<Float> getInput(PVector pos, PVector vel) {
         ArrayList<Float> input = new ArrayList<>();
-        input.add(pos.x + vel.x - (goal.x + goalVel.x));
-        input.add(pos.y + vel.y - (goal.y + goalVel.y));
-        input.add(pos.x - goal.x);
-        input.add(pos.y - goal.y);
+        input.add(pos.x + vel.x - (goal.pos.x + goal.vel.x));
+        input.add(pos.y + vel.y - (goal.pos.y + goal.vel.y));
+        input.add(pos.x - goal.pos.x);
+        input.add(pos.y - goal.pos.y);
+        input.add(pos.x+ vel.x);
+        input.add(pos.y+ vel.y);
+        input.add(p.width-(pos.x+vel.x));
+        input.add(p.height-(pos.y+ vel.y));
         return input;
     }
 
     ArrayList<Float> process(PVector pos, PVector vel) {
         ArrayList<Float> input = getInput(pos, vel);
-//  THIS IS GOOD: ArrayList<Float> input = new ArrayList<>(Arrays.asList(pos.x-goal.x, pos.y-goal.y,vel.x,vel.y, goalVel.x, goalVel.y));
-        if (input.size() != Main.nnShape[0]) {
+        if (input.size() != nnShape[0]) {
             System.out.println("Number of inputs= " + input.size() + " doesn't match the NN shape which is= " + Main.nnShape[0]);
             System.exit(0);
         } else {
             //loop through all the layers except the last
-            for (int i = 0; i < Main.nnShape.length - 1; i++)
+            for (int i = 0; i < nnShape.length - 1; i++)
                 //Multiply the weight matrix by the input
                 input = weights[i].calc(sigmoid(input), bias[i + 1]);
         }
@@ -67,7 +70,7 @@ public class NeuralNetwork {
     }
 
     private ArrayList<Float> sigmoid(ArrayList<Float> v) {
-        ArrayList<Float> ans = new ArrayList<Float>();
+        ArrayList<Float> ans = new ArrayList<>();
         for (Float x : v) ans.add(1 / (1 + exp(-x)));
         return ans;
     }

@@ -71,9 +71,9 @@ public class DisplayNetwork {
                 for (int j = 0; j < nn.weights[LAYER].height; j++) {
                     float W = nn.weights[LAYER].get(j, i);
                     if (W > 0)
-                        p.stroke(0, 0, 255);
+                        p.stroke(0, 0, 255,100);
                     else if (W < 0)
-                        p.stroke(255, 0, 0);
+                        p.stroke(255, 0, 0,100);
                     else
                         p.stroke(0);
                     PVector p1 = nodesCords[LAYER].get(j);
