@@ -11,6 +11,7 @@ This project was my first attempt to use Neural Networks using an evolution algo
 4.The dots die if they touch the wall
 5.The dots are removed if they touch the goal
 6.The dots recive point every frame if they're near the goal
+7.The game end when the all dots are dead or the time passed
 ```
 
 ### The goal of the project is to create an spinning behavious around the target
