@@ -14,7 +14,7 @@ This project was my first attempt to use Neural Networks using an evolution algo
 7.The game end when the all dots are dead or the time passed
 ```
 
-### The goal of the project is to create an spinning behavious around the target
+
 
 
 ## Editable neural network shape
