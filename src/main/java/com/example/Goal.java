@@ -5,9 +5,16 @@ import processing.core.PVector;
 import static com.example.Main.*;
 import static com.example.Main.p;
 
+/**
+ * @author Denis Crismariu
+ */
 public class Goal {
     public PVector pos, vel;
 
+    /**
+     * Generate the goal position
+     * 5% chance to be parallel to one of the walls
+     */
     public Goal() {
         if (p.random(0, 1) < 0.05) {
             int shiftX = 20;
@@ -39,6 +46,10 @@ public class Goal {
         }
     }
 
+    /**
+     * If the mouseMode is active the goal follows the mouse
+     * else the goal bounces against the wall with the vel
+     */
     public void update() {
         if (!mouseMode) {
             if (pos.x + vel.x > p.width - 10 || pos.x + vel.x < 10)
@@ -53,6 +64,9 @@ public class Goal {
         draw();
     }
 
+    /**
+     * Draws the goal
+     */
     private void draw() {
         p.fill(255, 0, 0);
         p.ellipse(pos.x, pos.y, 10, 10);

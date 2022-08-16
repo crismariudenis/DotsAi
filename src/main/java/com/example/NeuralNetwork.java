@@ -8,9 +8,12 @@ import java.util.Random;
 import static com.example.Main.*;
 import static com.example.Main.p;
 
+/**
+ * @author Denis Crismariu
+ */
 public class NeuralNetwork {
     Matrix[] weights; // Matrix[i] should be from i to i+1
-    ArrayList<Float>[] bias;// bias[i] should be the biases from level i
+    ArrayList<Float>[] biases;// bias[i] should be the biases from level i
     float minWeight = -5;
     float maxWeight = 5;
     float minBias = -5;
@@ -18,18 +21,28 @@ public class NeuralNetwork {
     int step = 0;
     int maxNrSteps = 1000;
 
-    NeuralNetwork(int[] v) {
-        bias = (ArrayList<Float>[]) new ArrayList[v.length];
-        weights = new Matrix[v.length - 1];
-        for (int i = 0; i < v.length; i++) {
-            if (i != v.length - 1)//last layer
-                weights[i] = new Matrix(v[i], v[i + 1], minWeight, maxWeight);
-            bias[i] = new ArrayList<>();
-            initialize(bias[i], v[i]);
+    /**
+     * generates the biases with random values
+     * generates new weights
+     * @param shape the shape of the neural network
+     */
+    NeuralNetwork(int[] shape) {
+        biases = (ArrayList<Float>[]) new ArrayList[shape.length];
+        weights = new Matrix[shape.length - 1];
+        for (int i = 0; i < shape.length; i++) {
+            if (i != shape.length - 1)//last layer
+                weights[i] = new Matrix(shape[i], shape[i + 1], minWeight, maxWeight);
+            biases[i] = new ArrayList<>();
+            initialize(biases[i], shape[i]);
         }
     }
-    //returns the output after the matrices multiplications
 
+    /**
+     * Moves the input nodes values into and ArrayList
+     * @param pos the position of the player
+     * @param vel the velocity of the player
+     * @return an ArrayList with all the values in the input layer
+     */
     private ArrayList<Float> getInput(PVector pos, PVector vel) {
         ArrayList<Float> input = new ArrayList<>();
         input.add(pos.x + vel.x - (goal.pos.x + goal.vel.x));
@@ -47,6 +60,13 @@ public class NeuralNetwork {
         return input;
     }
 
+    /**
+     * Computes the values from each layer to the next one using the sigmoid function for activation
+     * The output values are clamped between -1 and 1
+     * @param pos the position of the player
+     * @param vel the layer of the player
+     * @return an ArrayList<Float>
+     */
     ArrayList<Float> process(PVector pos, PVector vel) {
         ArrayList<Float> input = getInput(pos, vel);
         if (input.size() != nnShape[0]) {
@@ -54,9 +74,11 @@ public class NeuralNetwork {
             System.exit(0);
         } else {
             //loop through all the layers except the last
-            for (int i = 0; i < nnShape.length - 1; i++)
-                //Multiply the weight matrix by the input
-                input = weights[i].calc(sigmoid(input), bias[i + 1]);
+            for (int i = 0; i < nnShape.length - 1; i++) { //Multiply the weight matrix by the input
+                //applying sigmoid to the whole input
+                sigmoid(input);
+                input = weights[i].calc(input, biases[i + 1]);
+            }
         }
         //clamp the output between [-1,1]
         for (int i = 0; i < input.size(); i++)
@@ -65,29 +87,36 @@ public class NeuralNetwork {
         return input;
     }
 
-    //initialize with random values
-    private void initialize(ArrayList<Float> v, int size) {
+    /**
+     * @param bias the arraylist in which we need to add the random biases
+     * @param size the size of the bias ArrayList
+     */
+    private void initialize(ArrayList<Float> bias, int size) {
         for (int i = 0; i < size; i++) {
             Random R = new Random();
-            v.add(minBias + R.nextFloat() * (maxBias - minBias));
+            bias.add(minBias + R.nextFloat() * (maxBias - minBias));
         }
     }
 
-    private ArrayList<Float> sigmoid(ArrayList<Float> v) {
-        ArrayList<Float> ans = new ArrayList<>();
-        for (Float x : v) ans.add(1 / (1 + exp(-x)));
-        return ans;
+    /**
+     * @param v the ArrayList with needs to be sigmoided
+     */
+    private void sigmoid(ArrayList<Float> v) {
+        v.replaceAll(aFloat -> 1  / (1 + exp(-aFloat)));
     }
 
-    //returns a clone of a NeuralNetwork
+    /**
+     * Custom cloning function for copying
+     * @return the clone of the NeuralNetwork
+     */
     public NeuralNetwork clone() {
         NeuralNetwork clone = new NeuralNetwork(nnShape);
         //clone the bias by value
-        clone.bias = (ArrayList<Float>[]) new ArrayList[this.bias.length];
-        for (int i = 0; i < this.bias.length; i++) {
-            clone.bias[i] = new ArrayList<>();
-            for (int j = 0; j < this.bias[i].size(); j++)
-                clone.bias[i].add(this.bias[i].get(j));
+        clone.biases = (ArrayList<Float>[]) new ArrayList[this.biases.length];
+        for (int i = 0; i < this.biases.length; i++) {
+            clone.biases[i] = new ArrayList<>();
+            for (int j = 0; j < this.biases[i].size(); j++)
+                clone.biases[i].add(this.biases[i].get(j));
         }
         //clone the weights
         clone.weights = new Matrix[this.weights.length];
@@ -98,7 +127,11 @@ public class NeuralNetwork {
         return clone;
     }
 
-    //merge 2 NeuralNetwork
+    /**
+     * Merging two neural networks
+     * @param p2 thw other neural network
+     * @return the Neural Network that is the clone
+     */
     public NeuralNetwork merge(NeuralNetwork p2) {
         //merge
         NeuralNetwork merger = p2.clone();
@@ -106,18 +139,22 @@ public class NeuralNetwork {
         for (int i = 0; i < this.weights.length; i++) {
             merger.weights[i] = this.weights[i].merge(p2.weights[i]);
         }
-        for (int i = 0; i < this.bias.length; i++)
-            for (int j = 0; j < this.bias[i].size(); j++) {
+        for (int i = 0; i < this.biases.length; i++)
+            for (int j = 0; j < this.biases[i].size(); j++) {
                 float r = p.random(1);
                 if (r < 0.5)
-                    merger.bias[i].set(j, this.bias[i].get(j));
+                    merger.biases[i].set(j, this.biases[i].get(j));
             }
         return merger;
     }
 
+    /**
+     * Mutates the biases of the Network
+     * and calls the Matrix mutate function
+     */
     public void mutate() {
         //mutate bias
-        for (ArrayList<Float> bia : bias)
+        for (ArrayList<Float> bia : biases)
             for (int j = 0; j < bia.size(); j++) {
                 float rand = p.random(1);
                 if (rand < biasMutationRate) {
@@ -130,6 +167,13 @@ public class NeuralNetwork {
             x.mutate();
     }
 
+    /**
+     *
+     * @param value the value you want to clamp
+     * @param min the minimum value
+     * @param max the maximum value
+     * @return the clamping
+     */
     private float clamp(float value, float min, float max) {
         return Math.max(min, Math.min(max, value));
     }

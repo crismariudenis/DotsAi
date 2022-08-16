@@ -7,12 +7,23 @@ import java.util.ArrayList;
 import static com.example.Main.*;
 import static com.example.Main.p;
 
+/**
+ * @author Denis Crismariu
+ */
+
 public class DisplayNetwork {
     float x, y, scale;
     float diameter, spacingX, spacingY;
     ArrayList<PVector>[] nodesCords;
     NeuralNetwork nn;
 
+    /**
+     *
+     * @param x the x coordinate of the top left corner of the network
+     * @param y the y coordinate of the top left corner of the network
+     * @param scale the scale with multiplies the default values of the network
+     * @param nn the neural network of the dot
+     */
     DisplayNetwork(float x, float y, float scale, NeuralNetwork nn) {
         this.x = x;
         this.y = y;
@@ -24,6 +35,9 @@ public class DisplayNetwork {
         calculateNodesCords();
     }
 
+    /**
+     * Shows the weights line and the neurons
+     */
     public void show() {
         p.translate(x, y);
         showWeights();
@@ -31,7 +45,9 @@ public class DisplayNetwork {
 //        showNames();
     }
 
-//calculate the location of the nodes diagram on the screen in pixels
+    /**
+     * Calculates the location of the nodes of the neuron network on the screen
+     */
     private void calculateNodesCords() {
         int maxi = -1;
         for (int x : nnShape)
@@ -53,6 +69,9 @@ public class DisplayNetwork {
         }
     }
 
+    /**
+     * Draws the neurons on the screen
+     */
     private void showNeurons() {
         p.fill(255);
         for (ArrayList<PVector> nc : nodesCords) {
@@ -61,10 +80,17 @@ public class DisplayNetwork {
         }
     }
 
+    /**
+     * Change the drawn nn with a new one
+     * @param nn the new Neural Network
+     */
     public void changeNetwork(NeuralNetwork nn) {
         this.nn = nn;
     }
 
+    /**
+     * Draws the weights lines on the screen
+     */
     private void showWeights() {
         for (int LAYER = 0; LAYER < nnShape.length - 1; LAYER++) {
             for (int i = 0; i < nn.weights[LAYER].width; i++)

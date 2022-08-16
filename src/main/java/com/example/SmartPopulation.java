@@ -8,7 +8,6 @@ import static java.lang.Math.max;
 
 /**
  * @author Denis Crismariu
- * A population of SmartDots
  */
 public class SmartPopulation {
     SmartDot[] dots;
@@ -73,9 +72,10 @@ public class SmartPopulation {
 
 
     /**
-     * Calculates the best dot which will get to the next generation without any changes
+     * Calculates the best dot which will get to the next generation without any changes in pos 0
      * The other dots are made from merging 2 parents chose based on their fitness
      * with some mutation on top of that
+     * Link the display network to the new best dot
      */
     public void naturalSelection() {
         //generate a new goal
@@ -169,9 +169,9 @@ public class SmartPopulation {
             weightsChanges += na.weights[0].compare(nb.weights[0]);
         }
         //ad the number of different bias
-        for (int i = 0; i < na.bias.length; i++)
-            for (int j = 0; j < na.bias[i].size(); j++)
-                if (!Objects.equals(na.bias[i].get(j), nb.bias[i].get(j))) {
+        for (int i = 0; i < na.biases.length; i++)
+            for (int j = 0; j < na.biases[i].size(); j++)
+                if (!Objects.equals(na.biases[i].get(j), nb.biases[i].get(j))) {
                     biasesChange++;
                 }
         return "Changes: " + "weights=" + weightsChanges + " biases=" + biasesChange;

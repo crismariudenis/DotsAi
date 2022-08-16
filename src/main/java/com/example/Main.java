@@ -4,12 +4,9 @@ package com.example;
 import processing.core.PApplet;
 
 /**
- *
+ * @author Denis Crismariu
  */
 public class Main extends PApplet {
-    /**
-     *
-     */
 
     public static PApplet p;
 //Todo: GENERATE DOCUMENTATION
@@ -21,6 +18,11 @@ public class Main extends PApplet {
 
     public static boolean mouseMode=false;
 
+    /**
+     * Function that is called by processing one time
+     * at the start of the program
+     * It is called after the main
+     */
     public void setup() {
         p = this;
         frameRate(120);
@@ -29,6 +31,9 @@ public class Main extends PApplet {
         goal=new Goal();
     }
 
+    /**
+     * Draws the menu screen
+     */
     public void menu() {
         textSize(30);
         text("Generations: " + smartPop.gen, 5, height - 70);
@@ -40,6 +45,9 @@ public class Main extends PApplet {
         text("Best fitness: " + SmartPopulation.maxFitness, 5, height - 120);
     }
 
+    /**
+     * Functions that is called every frame and call all the other functions
+     */
     public void draw() {
         //Todo: Save the best of the generation in a file + add loading method from file
         //Todo: Make multiple movements like curvature and mouse / GENERATE THE SHAPE AT THE BEGINNING
@@ -57,16 +65,28 @@ public class Main extends PApplet {
             smartPop.show();
         }
     }
+
+    /**
+     * Inverts the mouse mode if the key 'S' is pressed
+     */
     public void keyPressed(){
         if (key == 's') {
             mouseMode = !mouseMode;
         }
     }
+
+    /**
+     * Initializing the screen size
+     */
     public void settings() {
         size(900, 900);
     }
 
-
+    /**
+     * Generates a random shape for the network
+     * @param input the number of nodes in the input layer
+     * @param output the number of nodes in the output layer
+     */
     private void generateNetworkShape(int input, int output) {
         //////////////////
         int maxNrLayers = 7;
@@ -83,7 +103,9 @@ public class Main extends PApplet {
             nnShape[i] = ceil(p.random(minNrNodes, maxNrNodes));
     }
 
-    public static void main(String[] args) {
-        PApplet.main("com.example.Main", args);
-    }
+    /**
+     * The main function
+     * @param args
+     */
+    public static void main(String[] args) {PApplet.main("com.example.Main", args);}
 }
