@@ -47,7 +47,7 @@ float right = ans.get(2);
 float left = ans.get(3);
 ```
 
-### The goal  is to create an spinning behavious around the target with minimum numbers of inputs
+### The goal  is to create an spinning behaviour around the target with a minimum numbers of inputs
 
 
 
