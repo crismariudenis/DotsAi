@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import static com.example.Main.*;
 import static com.example.Main.p;
 
-class SmartDot {
+/**
+ * @author Denis Crismariu
+ */
+public class SmartDot {
     PVector pos;
     PVector vel;
     PVector acc;
@@ -21,6 +24,13 @@ class SmartDot {
     boolean reachedGoal = false;
     boolean isBest = false;
 
+    /**
+     * Constructor initializing values for
+     * pos: the position
+     * vel: the velocity
+     * acc: the acceleration
+     * nn: the neural network
+     */
     SmartDot() {
         pos = new PVector(p.width / 2, p.height - 10);
         vel = new PVector(0, 0);
@@ -28,6 +38,10 @@ class SmartDot {
         nn = new NeuralNetwork(Main.nnShape);
     }
 
+    /**
+     * Draws the dot if it is alive
+     * Dot is green if it's theb est from the previous generation
+     */
     public void show() {
         if (dead || reachedGoal)
             return;
@@ -40,6 +54,10 @@ class SmartDot {
         }
     }
 
+    /**
+     * Calculates the fitness of every dot
+     * @param closeToGoalPoints a value that grows when the player is in the proximity of the goal
+     */
     public void calculateFitness() {
         if (reachedGoal) {
             fitness = 5+closeToGoalPoints/100;
@@ -48,6 +66,10 @@ class SmartDot {
             fitness = 0.1f + closeToGoalPoints;
     }
 
+    /**
+     * closeToGoalPoints becomes bigger with the time spent close to the goal
+     * Calculates if the dot is dead, or if it reached the goal
+     */
     public void update() {
         if (dist(pos.x, pos.y, goal.pos.x, goal.pos.y) <= 100 && !dead) {
             timesCloseToGoal += 1f;
@@ -69,22 +91,32 @@ class SmartDot {
         }
     }
 
-    public SmartDot giveBaby(SmartDot p2, boolean isBest) {
+    /**
+     * @param p2 the second parent
+     * @return a combination of the two parents
+     */
+    public SmartDot giveBaby(SmartDot p2) {
         SmartDot baby = new SmartDot();
-
-        //if isn't best merge two parents
-        if (!isBest)
-            baby.nn = merge(nn, p2.nn);
-        else
-            baby.nn = nn.clone();
+        baby.nn = merge(this.nn, p2.nn);
         return baby;
     }
 
+    /**
+     * This function is only called for the best dot from the previous generation
+     * @return a clone of the parent
+     */
+    public SmartDot giveBaby(){
+        SmartDot baby = new SmartDot();
+        baby.nn=nn.clone();
+        return baby;
+    }
+
+    /**
+     * Moves the player based on the value calculated by the neural network
+     */
     public void move() {
         PVector acc = new PVector(0, 0);
-        if (nn.maxNrStep > nn.step) {
-
-
+        if (nn.maxNrSteps > nn.step) {
             ArrayList<Float> ans = nn.process(pos, vel);
             nn.step++;
 
@@ -106,7 +138,13 @@ class SmartDot {
         pos.add(vel);
     }
 
-    //dummy function to make the code look cleaner
+    /**
+     * Dummy function to make the code look cleaner
+     * @param a network 1
+     * @param b network 2
+     * @return a new network with 50/50 values from a and b networks
+     */
+
     private NeuralNetwork merge(NeuralNetwork a, NeuralNetwork b) {
         return a.merge(b);
     }

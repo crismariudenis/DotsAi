@@ -9,10 +9,10 @@ public class Goal {
     public PVector pos, vel;
 
     public Goal() {
-        if (p.random(0,1) < 0.01) {
+        if (p.random(0, 1) < 0.05) {
             int shiftX = 20;
             int shiftY = 20;
-            float rand = p.random(0,1);
+            float rand = p.random(0, 1);
 
             if (rand < 0.25) {
                 //up edge
@@ -33,12 +33,12 @@ public class Goal {
             }
         } else {
             pos = new PVector(p.random(100, p.width - 100), 100);
-            //generate goal velocity
             float x = p.random(-2, 2);
             float y = p.random(-2, 2);
             vel = new PVector(x, -y);
         }
     }
+
     public void update() {
         if (!mouseMode) {
             if (pos.x + vel.x > p.width - 10 || pos.x + vel.x < 10)

@@ -16,7 +16,7 @@ public class NeuralNetwork {
     float minBias = -5;
     float maxBias = 5;
     int step = 0;
-    int maxNrStep = 1000;
+    int maxNrSteps = 1000;
 
     NeuralNetwork(int[] v) {
         bias = (ArrayList<Float>[]) new ArrayList[v.length];
@@ -36,10 +36,14 @@ public class NeuralNetwork {
         input.add(pos.y + vel.y - (goal.pos.y + goal.vel.y));
         input.add(pos.x - goal.pos.x);
         input.add(pos.y - goal.pos.y);
-        input.add(pos.x+ vel.x);
-        input.add(pos.y+ vel.y);
-        input.add(p.width-(pos.x+vel.x));
-        input.add(p.height-(pos.y+ vel.y));
+//        input.add(pos.x+ vel.x);
+//        input.add(pos.y+ vel.y);
+//        input.add(p.width-(pos.x+vel.x));
+//        input.add(p.height-(pos.y+ vel.y));
+//        input.add(pos.x);
+//        input.add(pos.y);
+//        input.add(p.width-pos.x);
+//        input.add(p.height-pos.y);
         return input;
     }
 

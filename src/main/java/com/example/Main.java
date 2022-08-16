@@ -2,14 +2,19 @@
 package com.example;
 
 import processing.core.PApplet;
-import processing.core.PVector;
 
+/**
+ *
+ */
 public class Main extends PApplet {
+    /**
+     *
+     */
 
     public static PApplet p;
-
+//Todo: GENERATE DOCUMENTATION
     SmartPopulation smartPop;
-    public static int[] nnShape = new int[]{8,12,10,10,4};
+    public static int[] nnShape = new int[]{4,8,4};
     public static Goal goal;
     public static final float weightsMutationRate = 0.001f;
     public static final float biasMutationRate = 0.01f;
@@ -19,7 +24,7 @@ public class Main extends PApplet {
     public void setup() {
         p = this;
         frameRate(120);
-        generateNetworkShape(8,4);
+//        generateNetworkShape(12,4);
         smartPop = new SmartPopulation(2000);
         goal=new Goal();
     }
@@ -41,8 +46,7 @@ public class Main extends PApplet {
         background(200);
 
         goal.update();
-//        fill(0, 0, 255,100);
-//        ellipse(goal.x, goal.y, 100, 100);
+
         menu();
         if (smartPop.allDotsDead()) {
             smartPop.calculateFitness();

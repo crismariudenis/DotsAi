@@ -3,20 +3,26 @@ package com.example;
 
 import java.util.Objects;
 
-import static com.example.Main.*;
 import static com.example.Main.p;
 import static java.lang.Math.max;
 
+/**
+ * @author Denis Crismariu
+ * A population of SmartDots
+ */
 public class SmartPopulation {
     SmartDot[] dots;
     DisplayNetwork dn;
     float fitnessSum;
     int gen = 1;
     int bestDot = 0;
-    int minStep = 400;
     static int maxFitness = 0;
     static int dotsReachedGoals = 0;
 
+    /**
+     * Construct that generates the array of dots and the DisplayNetwork for the best dot
+     * @param size the number of players in the generation
+     */
     SmartPopulation(int size) {
         dots = new SmartDot[size];
         for (int i = 0; i < size; i++)
@@ -25,6 +31,9 @@ public class SmartPopulation {
 
     }
 
+    /**
+     * Shows all the dots and the DisplayNetwork
+     */
     public void show() {
         for (int i = 1; i < dots.length; i++)
             dots[i].show();
@@ -32,20 +41,29 @@ public class SmartPopulation {
         dn.show();
     }
 
-
+    /**
+     * Calculates the fitness of very dot
+     */
     public void calculateFitness() {
         for (SmartDot x : dots)
             x.calculateFitness();
     }
 
+    /**
+     * Updates the dots if they haven't overcome the maxNrSteps
+     */
     public void update() {
         for (SmartDot x : dots)
-            if (x.nn.step > x.nn.maxNrStep)
+            if (x.nn.step > x.nn.maxNrSteps)
                 x.dead = true;
             else
                 x.update();
     }
 
+    /**
+     *
+     * @return if all dots are dead
+     */
     public boolean allDotsDead() {
         for (SmartDot x : dots)
             if (!x.dead && !x.reachedGoal)
@@ -54,21 +72,21 @@ public class SmartPopulation {
     }
 
 
-
+    /**
+     * Calculates the best dot which will get to the next generation without any changes
+     * The other dots are made from merging 2 parents chose based on their fitness
+     * with some mutation on top of that
+     */
     public void naturalSelection() {
-        //generate the goal close barrier
+        //generate a new goal
         Main.goal=new Goal();
-
 
         SmartDot[] newDots = new SmartDot[dots.length];
         setBestDot();
         calculateFitnessSum();
-        SmartDot parent1 = selectParent();
-        newDots[0] = dots[bestDot].giveBaby(parent1, true);
+        newDots[0] = dots[bestDot].giveBaby();
 
         newDots[0].isBest = true;
-//        System.out.println("Best fitness:"+ dots[bestDot].fitness+" DotsReachedGoal:"+dotsReachedGoals);
-
         maxFitness = max(maxFitness, (int) dots[bestDot].fitness);
         //change the displayed network
         dn.changeNetwork(dots[bestDot].nn);
@@ -79,14 +97,11 @@ public class SmartPopulation {
             SmartDot p2 = selectParent();
             //make sure the parents are different
 
-            while (p1 == p2) {
-//                System.out.println("parents are the same");
+            while (p1 == p2)
                 p1 = selectParent();
-            }
-
 
             //get the BABY for the 2 parents
-            newDots[i] = p1.giveBaby(p2, false);
+            newDots[i] = p1.giveBaby(p2);
         }
         dots = newDots.clone();
         gen++;
@@ -99,7 +114,10 @@ public class SmartPopulation {
             fitnessSum += x.fitness;
     }
 
-    //select parent based on fitness
+    /**
+     *
+     * @return a random dot based on the fitness
+     */
     public SmartDot selectParent() {
         float rand = p.random(fitnessSum);
         float runningSum = 0;
@@ -112,10 +130,17 @@ public class SmartPopulation {
         return null;
     }
 
+    /**
+     * mutates every dot beside the best
+     */
     public void mutateBabies() {
-        for (SmartDot x : dots) x.nn.mutate();
+        for(int i=1;i<dots.length;i++)
+            dots[i].nn.mutate();
     }
 
+    /**
+     * find the bestDot based on the fitness
+     */
     public void setBestDot() {
         float maxi = 0;
         int maxIndex = 0;
@@ -125,16 +150,18 @@ public class SmartPopulation {
                 maxIndex = i;
             }
         bestDot = maxIndex;
-        if (dots[bestDot].reachedGoal)
-            minStep = dots[bestDot].nn.step;
+
     }
 
-    //compare the weights and biases of th best and previous best player
+    /**
+     *
+     * @return the number of differences from prev best to current best in weights and biases
+     */
     public String compare() {
         setBestDot();
         SmartDot a = dots[0];
         SmartDot b = dots[bestDot];
-        int weightsChanges = 0, biasChange = 0;
+        int weightsChanges = 0, biasesChange = 0;
         NeuralNetwork na = a.nn;
         NeuralNetwork nb = b.nn;
         //add the number of different weights
@@ -145,9 +172,9 @@ public class SmartPopulation {
         for (int i = 0; i < na.bias.length; i++)
             for (int j = 0; j < na.bias[i].size(); j++)
                 if (!Objects.equals(na.bias[i].get(j), nb.bias[i].get(j))) {
-                    biasChange++;
+                    biasesChange++;
                 }
-        return "Changes: " + "weights=" + weightsChanges + " biases=" + biasChange;
+        return "Changes: " + "weights=" + weightsChanges + " biases=" + biasesChange;
     }
 
 
