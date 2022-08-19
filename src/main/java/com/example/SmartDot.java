@@ -40,7 +40,7 @@ public class SmartDot {
 
     /**
      * Draws the dot if it is alive
-     * Dot is green if it's theb est from the previous generation
+     * Dot is green if it's the best from the previous generation
      */
     public void show() {
         if (dead || reachedGoal)
@@ -56,7 +56,6 @@ public class SmartDot {
 
     /**
      * Calculates the fitness of every dot
-     * @param closeToGoalPoints a value that grows when the player is in the proximity of the goal
      */
     public void calculateFitness() {
         if (reachedGoal) {
