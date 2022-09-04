@@ -1,7 +1,7 @@
 
 # DotsAi
 
-This project was my first attempt to use Neural Networks using an evolution algorithm.
+My first attempt at using an  Neural Networks with an evolution algorithm.
 
 ## Game Rules
 ```text
@@ -29,7 +29,7 @@ public static int[] nnShape = new int[]{4, 8, 4};
 
 
 
-## Changing the values leads to different results
+## Change these values to create different behaviors
 
 #### Input Layer
 
