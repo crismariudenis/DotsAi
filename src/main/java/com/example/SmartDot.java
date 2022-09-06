@@ -72,7 +72,7 @@ public class SmartDot {
     public void update() {
         if (dist(pos.x, pos.y, goal.pos.x, goal.pos.y) <= 100 && !dead) {
             timesCloseToGoal += 1f;
-            closeToGoalPoints+=timesCloseToGoal;
+            closeToGoalPoints+=1f;
         } else
             timesCloseToGoal = 0;
 

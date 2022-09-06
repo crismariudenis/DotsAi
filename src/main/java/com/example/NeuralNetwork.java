@@ -24,6 +24,7 @@ public class NeuralNetwork {
     /**
      * generates the biases with random values
      * generates new weights
+     *
      * @param shape the shape of the neural network
      */
     NeuralNetwork(int[] shape) {
@@ -39,6 +40,7 @@ public class NeuralNetwork {
 
     /**
      * Moves the input nodes values into and ArrayList
+     *
      * @param pos the position of the player
      * @param vel the velocity of the player
      * @return an ArrayList with all the values in the input layer
@@ -63,6 +65,7 @@ public class NeuralNetwork {
     /**
      * Computes the values from each layer to the next one using the sigmoid function for activation
      * The output values are clamped between -1 and 1
+     *
      * @param pos the position of the player
      * @param vel the layer of the player
      * @return an ArrayList<Float>
@@ -99,14 +102,17 @@ public class NeuralNetwork {
     }
 
     /**
+     * Sigmoid activation function
+     *
      * @param v the ArrayList with needs to be sigmoided
      */
     private void sigmoid(ArrayList<Float> v) {
-        v.replaceAll(aFloat -> 1  / (1 + exp(-aFloat)));
+        v.replaceAll(x -> 1 / (1 + exp(-x)));
     }
 
     /**
      * Custom cloning function for copying
+     *
      * @return the clone of the NeuralNetwork
      */
     public NeuralNetwork clone() {
@@ -129,6 +135,7 @@ public class NeuralNetwork {
 
     /**
      * Merging two neural networks
+     *
      * @param p2 thw other neural network
      * @return the Neural Network that is the clone
      */
@@ -168,10 +175,9 @@ public class NeuralNetwork {
     }
 
     /**
-     *
      * @param value the value you want to clamp
-     * @param min the minimum value
-     * @param max the maximum value
+     * @param min   the minimum value
+     * @param max   the maximum value
      * @return the clamping
      */
     private float clamp(float value, float min, float max) {

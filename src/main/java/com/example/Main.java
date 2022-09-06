@@ -9,7 +9,6 @@ import processing.core.PApplet;
 public class Main extends PApplet {
 
     public static PApplet p;
-//Todo: GENERATE DOCUMENTATION
     SmartPopulation smartPop;
     public static int[] nnShape = new int[]{4,8,4};
     public static Goal goal;
