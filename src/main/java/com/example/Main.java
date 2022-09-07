@@ -50,6 +50,7 @@ public class Main extends PApplet {
     public void draw() {
         //Todo: Save the best of the generation in a file + add loading method from file
         //Todo: Make multiple movements like curvature and mouse / GENERATE THE SHAPE AT THE BEGINNING
+        //Todo: App/ Phone app to select all the values like, shape , inputs, fitness function
         background(200);
 
         goal.update();

@@ -17,8 +17,8 @@ public class Goal {
      */
     public Goal() {
         if (p.random(0, 1) < 0.05) {
-            int shiftX = 20;
-            int shiftY = 20;
+            int shiftX = 40;
+            int shiftY = 40;
             float rand = p.random(0, 1);
 
             if (rand < 0.25) {

@@ -38,7 +38,7 @@ public class NeuralNetwork {
         }
     }
 
-    /**
+     /**
      * Moves the input nodes values into and ArrayList
      *
      * @param pos the position of the player
