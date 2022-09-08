@@ -4,7 +4,7 @@ import processing.core.PVector;
 
 import static com.example.Main.*;
 import static com.example.Main.p;
-
+import static com.example.Parameters.*;
 /**
  * @author Denis Crismariu
  */

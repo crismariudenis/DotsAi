@@ -6,14 +6,13 @@ import processing.core.PApplet;
 /**
  * @author Denis Crismariu
  */
+import static com.example.Parameters.*;
+
 public class Main extends PApplet {
 
     public static PApplet p;
     SmartPopulation smartPop;
-    public static int[] nnShape = new int[]{4,8,4};
     public static Goal goal;
-    public static final float weightsMutationRate = 0.001f;
-    public static final float biasMutationRate = 0.01f;
 
     public static boolean mouseMode=false;
 
@@ -37,7 +36,7 @@ public class Main extends PApplet {
         textSize(30);
         text("Generations: " + smartPop.gen, 5, height - 70);
         StringBuilder s = new StringBuilder("NN shape: ");
-        for (int x : nnShape)
+        for (int x : Parameters.nnShape)
             s.append(x).append(" ");
         String S = String.valueOf(s);
         text(S, 5, height - 20);
@@ -88,19 +87,13 @@ public class Main extends PApplet {
      * @param output the number of nodes in the output layer
      */
     private void generateNetworkShape(int input, int output) {
-        //////////////////
-        int maxNrLayers = 7;
-        int minNrLayers = 2;
 
-        int minNrNodes = 4;
-        int maxNrNodes = 12;
-        //////////////////
-        int nrLayers = (int) p.random(minNrLayers, maxNrLayers);
+        int nrLayers = (int) p.random(Parameters.minNrLayers, Parameters.maxNrLayers);
         nnShape = new int[nrLayers + 2];
         nnShape[0] = input;
         nnShape[nnShape.length - 1] = output;
         for (int i = 1; i < nnShape.length - 1; i++)
-            nnShape[i] = ceil(p.random(minNrNodes, maxNrNodes));
+            nnShape[i] = ceil(p.random(Parameters.minNrNodes, Parameters.maxNrNodes));
     }
 
     /**

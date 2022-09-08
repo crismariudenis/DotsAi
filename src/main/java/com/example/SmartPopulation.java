@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import static com.example.Main.p;
 import static java.lang.Math.max;
+import static com.example.Parameters.*;
 
 /**
  * @author Denis Crismariu
@@ -53,7 +54,7 @@ public class SmartPopulation {
      */
     public void update() {
         for (SmartDot x : dots)
-            if (x.nn.step > x.nn.maxNrSteps)
+            if (x.nn.step > maxNrSteps)
                 x.dead = true;
             else
                 x.update();

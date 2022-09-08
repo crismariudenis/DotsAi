@@ -3,8 +3,9 @@ package com.example;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.example.Main.*;
 import static com.example.Main.p;
+import static com.example.Parameters.*;
+
 
 /**
  * @author Denis Crismariu

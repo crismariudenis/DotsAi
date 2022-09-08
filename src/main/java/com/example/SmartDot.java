@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import static com.example.Main.*;
 import static com.example.Main.p;
+import static com.example.Parameters.*;
 
 /**
  * @author Denis Crismariu
@@ -35,7 +36,7 @@ public class SmartDot {
         pos = new PVector(p.width / 2, p.height - 10);
         vel = new PVector(0, 0);
         acc = new PVector(0, 0);
-        nn = new NeuralNetwork(Main.nnShape);
+        nn = new NeuralNetwork(nnShape);
     }
 
     /**
@@ -115,7 +116,7 @@ public class SmartDot {
      */
     public void move() {
         PVector acc = new PVector(0, 0);
-        if (nn.maxNrSteps > nn.step) {
+        if (maxNrSteps > nn.step) {
             ArrayList<Float> ans = nn.process(pos, vel);
             nn.step++;
 
