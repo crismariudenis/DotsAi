@@ -23,5 +23,4 @@ public  class Parameters {
     //--------------------------------------
     public static final  int maxNrSteps = 1000;
 
-
 }

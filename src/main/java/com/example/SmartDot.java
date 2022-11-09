@@ -37,6 +37,7 @@ public class SmartDot {
         vel = new PVector(0, 0);
         acc = new PVector(0, 0);
         nn = new NeuralNetwork(nnShape);
+     
     }
 
     /**

@@ -7,6 +7,8 @@ import java.util.Random;
 
 import static com.example.Main.*;
 import static com.example.Main.p;
+import static com.example.Parameters.*;
+
 
 /**
  * @author Denis Crismariu
@@ -14,12 +16,8 @@ import static com.example.Main.p;
 public class NeuralNetwork {
     Matrix[] weights; // Matrix[i] should be from i to i+1
     ArrayList<Float>[] biases;// bias[i] should be the biases from level i
-    float minWeight = -5;
-    float maxWeight = 5;
-    float minBias = -5;
-    float maxBias = 5;
+
     int step = 0;
-    int maxNrSteps = 1000;
 
     /**
      * generates the biases with random values
@@ -73,7 +71,7 @@ public class NeuralNetwork {
     ArrayList<Float> process(PVector pos, PVector vel) {
         ArrayList<Float> input = getInput(pos, vel);
         if (input.size() != nnShape[0]) {
-            System.out.println("Number of inputs= " + input.size() + " doesn't match the NN shape which is= " + Main.nnShape[0]);
+            System.out.println("Number of inputs= " + input.size() + " doesn't match the NN shape which is= " + nnShape[0]);
             System.exit(0);
         } else {
             //loop through all the layers except the last
