@@ -14,8 +14,8 @@ import static com.example.Parameters.*;
  * @author Denis Crismariu
  */
 public class NeuralNetwork {
-    Matrix[] weights; // Matrix[i] should be from i to i+1
-    ArrayList<Float>[] biases;// bias[i] should be the biases from level i
+    Matrix[] weights; // Matrix[i] is from i to i+1
+    ArrayList<Float>[] biases;
 
     int step = 0;
 
@@ -37,7 +37,7 @@ public class NeuralNetwork {
     }
 
      /**
-     * Moves the input nodes values into and ArrayList
+     * Packs the input nodes values into and ArrayList
      *
      * @param pos the position of the player
      * @param vel the velocity of the player
@@ -78,7 +78,7 @@ public class NeuralNetwork {
             for (int i = 0; i < nnShape.length - 1; i++) { //Multiply the weight matrix by the input
                 //applying sigmoid to the whole input
                 sigmoid(input);
-                input = weights[i].calc(input, biases[i + 1]);
+                input = weights[i].compute(input, biases[i + 1]);
             }
         }
         //clamp the output between [-1,1]
@@ -102,7 +102,7 @@ public class NeuralNetwork {
     /**
      * Sigmoid activation function
      *
-     * @param v the ArrayList with needs to be sigmoided
+     * @param v the input ArrayLists
      */
     private void sigmoid(ArrayList<Float> v) {
         v.replaceAll(x -> 1 / (1 + exp(-x)));
@@ -134,7 +134,7 @@ public class NeuralNetwork {
     /**
      * Merging two neural networks
      *
-     * @param p2 thw other neural network
+     * @param p2 the other neural network
      * @return the Neural Network that is the clone
      */
     public NeuralNetwork merge(NeuralNetwork p2) {

@@ -10,7 +10,7 @@ My first attempt at using an  Neural Networks with an evolution algorithm.
 3.The best player in previous generation(green dot)
 4.The dots die if they touch the wall
 5.The dots are removed if they touch the goal
-6.The dots recive point every frame if they're near the goal
+6.The dots receive point every frame if they're near the goal
 7.The game end when the all dots are dead or the time passed
 ```
 

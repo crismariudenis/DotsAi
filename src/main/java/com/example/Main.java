@@ -44,7 +44,7 @@ public class Main extends PApplet {
     }
 
     /**
-     * Functions that is called every frame and call all the other functions
+     * Draws the scene every frame
      */
     public void draw() {
         //Todo: Save the best of the generation in a file + add loading method from file

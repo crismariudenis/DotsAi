@@ -13,7 +13,7 @@ import static com.example.Parameters.*;
  * @author Denis Crismariu
  */
 
-public class DisplayNetwork {
+public class NetworkVisualizer {
     float x, y, scale;
     float diameter, spacingX, spacingY;
     ArrayList<PVector>[] nodesCords;
@@ -26,7 +26,7 @@ public class DisplayNetwork {
      * @param scale the scale with multiplies the default values of the network
      * @param nn the neural network of the dot
      */
-    DisplayNetwork(float x, float y, float scale, NeuralNetwork nn) {
+    NetworkVisualizer(float x, float y, float scale, NeuralNetwork nn) {
         this.x = x;
         this.y = y;
         this.nn = nn;
@@ -48,7 +48,7 @@ public class DisplayNetwork {
     }
 
     /**
-     * Calculates the location of the nodes of the neuron network on the screen
+     * Computes the location of the nodes on the screen
      */
     private void calculateNodesCords() {
         int maxi = -1;

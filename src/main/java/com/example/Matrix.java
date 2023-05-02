@@ -20,8 +20,8 @@ public class Matrix {
      * Generates the matrix of weights
      * @param height the height of the matrix
      * @param width the width of the matrix
-     * @param mini the min value in the matrix
-     * @param maxi the max value in the matrix
+     * @param mini the min value of the weights
+     * @param maxi the max value of the weights
      */
     Matrix(int height, int width, float mini, float maxi) {
         this.height = height;
@@ -32,8 +32,7 @@ public class Matrix {
         initialize(mini, maxi);
     }
 
-    //initialize the Matrix with random values
-
+    
     /**
      * Initializing with random values
      * @param mini the min value in the matrix
@@ -48,7 +47,7 @@ public class Matrix {
     }
 
     /**
-     * Function to print the matrix
+     * Prints the matrix in the console
      */
     void print() {
         for (int i = 0; i < height; i++, System.out.println())
@@ -58,15 +57,15 @@ public class Matrix {
     }
 
     /**
-     * Calculating the input to the next layer
+     * Computes the input to the next layer
      * @param input input layer
      * @param bias bias values for next level
      * @return the output after the matrix multiplication
      */
-    public ArrayList<Float> calc(ArrayList<Float> input, ArrayList<Float> bias) {
+    public ArrayList<Float> compute(ArrayList<Float> input, ArrayList<Float> bias) {
         ArrayList<Float> ans = new ArrayList<>();
         if (height != input.size()) {
-            System.out.println("Height of the matrix=" + height + " differs from the with of the vector=" + input.size());
+            System.out.println("Height of the matrix = " + height + " differs from the with of the vector = " + input.size());
             System.exit(0);
         } else {
             for (int i = 0; i < width; i++) {
@@ -93,7 +92,7 @@ public class Matrix {
             }
     }
     /**
-     * Merge wro matrices with 50% each
+     * Merge 2 matrices, 50% each
      * @param x the other matrix
      * @return the combination of the Matrices
      */
@@ -110,8 +109,8 @@ public class Matrix {
     }
 
     /**
-     * Creating a copy of the matrix
-     * @return the copy of the Matrix
+     * Creates a copy of the matrix
+     * @return the copy of the matrix
      */
     public Matrix copy() {
         Matrix clone = new Matrix(height, width, -100, 100);
@@ -123,10 +122,9 @@ public class Matrix {
         return clone;
     }
 
-    //compare the number of differences between two matrices
 
     /**
-     * Returns the number of differences in matrix
+     * Returns the number of differences between the matrices
      * @param m the second matrix
      * @return number of differences
      */

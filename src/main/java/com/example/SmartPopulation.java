@@ -12,7 +12,7 @@ import static com.example.Parameters.*;
  */
 public class SmartPopulation {
     SmartDot[] dots;
-    DisplayNetwork dn;
+    NetworkVisualizer dn;
     float fitnessSum;
     int gen = 1;
     int bestDot = 0;
@@ -27,7 +27,7 @@ public class SmartPopulation {
         dots = new SmartDot[size];
         for (int i = 0; i < size; i++)
             dots[i] = new SmartDot();
-        dn = new DisplayNetwork(50, 50, 10, dots[0].nn);
+        dn = new NetworkVisualizer(50, 50, 10, dots[0].nn);
 
     }
 

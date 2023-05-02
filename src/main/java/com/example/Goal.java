@@ -48,7 +48,7 @@ public class Goal {
 
     /**
      * If the mouseMode is active the goal follows the mouse
-     * else the goal bounces against the wall with the vel
+     * else the goal bounces against the walls
      */
     public void update() {
         if (!mouseMode) {
